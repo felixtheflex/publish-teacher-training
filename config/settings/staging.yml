@@ -1,0 +1,9 @@
+dfe_signin:
+  issuer: https://signin-test-oidc-as.azurewebsites.net
+  secret: please_change_me # Override with SETTINGS__DFE_SIGNIN__SECRET
+  profile: https://signin-test-pfl-as.azurewebsites.net
+  base_url: https://bat-stg-mcfe.azurewebsites.net
+manage_backend:
+  base_url: https://bat-stg-mcbe.azurewebsites.net
+manage_ui:
+  base_url: https://bat-stg-mcui.azurewebsites.net
