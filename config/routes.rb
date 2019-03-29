@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   root to: "providers#index"
 
   resources :providers, path: 'organisations', param: :code do
-    resources :courses, param: :code do
+    get '/courses/:code',
+      to: redirect { |path_params, req| helpers.manage_ui_course_page_url(provider_code: path_params[:provider_code], course_code: path_params[:code]) },
+      as: :course
+
+    resources :courses, param: :code, except: [:show] do
       get '/vacancies', on: :member, to: 'courses/vacancies#edit'
       put '/vacancies', on: :member, to: 'courses/vacancies#update'
     end
