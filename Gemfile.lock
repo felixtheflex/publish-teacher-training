@@ -289,6 +289,7 @@ GEM
       rubyzip (~> 1.2, >= 1.2.2)
     sentry-raven (2.9.0)
       faraday (>= 0.7.6, < 1.0)
+    simple_command (0.0.9)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -349,6 +350,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   application_insights
   bootsnap (>= 1.1.0)
   byebug
@@ -374,6 +376,7 @@ DEPENDENCIES
   rubocop
   selenium-webdriver
   sentry-raven
+  simple_command
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
