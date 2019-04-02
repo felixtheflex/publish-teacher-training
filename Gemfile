@@ -35,6 +35,9 @@ gem 'pkg-config', '~> 1.3.7'
 # Parsing JSON from an API
 gem 'json_api_client'
 
+# HTTP client library
+gem 'faraday'
+
 # For encoding/decoding web token used for authentication
 gem 'jwt'
 
