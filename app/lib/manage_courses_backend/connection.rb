@@ -1,5 +1,7 @@
 module ManageCoursesBackend
   module Connection
+    EMPTY_RESPONSE = '{}'.freeze
+
   private
 
     def connection(token)

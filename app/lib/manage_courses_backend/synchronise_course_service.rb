@@ -41,7 +41,9 @@ module ManageCoursesBackend
     end
 
     def response_body
-      connection(token).post(path)&.body || '{}'
+      connection(token).post(path)&.body || EMPTY_RESPONSE
+    rescue Faraday::Error::ConnectionFailed
+      EMPTY_RESPONSE
     end
   end
 end
