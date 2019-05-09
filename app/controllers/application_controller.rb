@@ -24,6 +24,9 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
+    request_id = request.env['ApplicationInsights.request.id']
+    logger.error "application insights request id: '#{request_id}'"
+
     if current_user
       add_token_to_connection
       set_has_multiple_providers
