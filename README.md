@@ -61,6 +61,17 @@ or
 bundle exec govuk-lint-sass app/webpacker/styles
 ```
 
+### Prettier
+
+Auto-formatting is available using [prettier](https://github.com/prettier/plugin-ruby). To run on the entire project:
+
+```bash
+yarn
+./node_modules/.bin/prettier --write '{app,config,lib,spec}/**/*.rb'
+```
+
+It's easier if you install a [plugin for your editor](https://prettier.io/docs/en/editors.html) and run it automatically when you save a file.
+
 ## Secrets vs Settings
 
 Refer to the [the config gem](https://github.com/railsconfig/config#accessing-the-settings-object) to understand the `file based settings` loading order.
