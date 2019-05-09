@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   # DfE Sign In
   get "/signin", to: "sessions#new", as: "signin"
@@ -34,4 +33,3 @@ Rails.application.routes.draw do
   match '/500', to: 'errors#internal_server_error', via: :all
   match '*path', to: 'errors#not_found', via: :all
 end
-# rubocop:enable Metrics/BlockLength
