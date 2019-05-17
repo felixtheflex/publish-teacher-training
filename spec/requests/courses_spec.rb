@@ -2,15 +2,16 @@ require 'rails_helper'
 
 describe 'Courses' do
   describe 'POST publish' do
-    let(:provider) { jsonapi(:provider) }
-    let(:course) { jsonapi(:course, provider: provider) }
+    let(:provider) { build(:provider) }
+    let(:course)   { build(:course, provider: provider) }
+    let(:include_string) { 'site_statuses.site,provider.sites,accrediting_provider' }
 
     before do
       stub_omniauth
       get(auth_dfe_callback_path)
       stub_api_v2_request(
-        "/providers/#{provider.provider_code}/courses/#{course.course_code}?include=site_statuses.site,provider.sites,accrediting_provider",
-        course.render,
+        "/providers/#{provider.provider_code}/courses/#{course.course_code}?include=#{include_string}",
+        course.to_jsonapi(include_string)
       )
     end
 

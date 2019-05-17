@@ -9,8 +9,8 @@ describe 'Providers', type: :request do
   describe 'GET index' do
     context 'with 1 provider' do
       it 'redirects to providers show' do
-        provider = jsonapi(:provider)
-        stub_api_v2_request('/providers', provider.render)
+        provider = build(:provider)
+        stub_api_v2_request('/providers', provider.to_jsonapi)
         get(providers_path)
         expect(response).to redirect_to provider_path(provider.provider_code)
       end
@@ -39,8 +39,8 @@ describe 'Providers', type: :request do
 
   describe 'GET show' do
     it 'render providers show' do
-      provider = jsonapi(:provider)
-      stub_api_v2_request("/providers/#{provider.provider_code}", provider.render)
+      provider = build(:provider)
+      stub_api_v2_request("/providers/#{provider.provider_code}", provider.to_jsonapi)
       get(provider_path(provider.provider_code))
       expect(response.body).to include(provider.provider_name)
     end

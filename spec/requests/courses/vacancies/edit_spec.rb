@@ -3,26 +3,27 @@ require 'rails_helper'
 describe 'Edit vacancies' do
   describe 'viewing the edit vacancies page' do
     let(:course) do
-      jsonapi(
+      build(
         :course,
         :with_full_time_or_part_time_vacancy,
         site_statuses: [site_status]
-      ).render
+      )
     end
-    let(:course_code) { course[:data][:attributes][:course_code] }
-    let(:site) { jsonapi(:site) }
+    let(:site) { build(:site) }
     let(:site_status) do
-      jsonapi(:site_status, :full_time_and_part_time, site: site)
+      build(:site_status, :full_time_and_part_time, site: site)
     end
     let(:edit_vacancies_path) do
-      "/organisations/AO/courses/#{course_code}/vacancies"
+      "/organisations/AO/courses/#{course.course_code}/vacancies"
     end
+    let(:include_string) { 'site_statuses.site' }
 
     before do
+      binding.pry
       stub_omniauth
       stub_api_v2_request(
-        "/providers/AO/courses/#{course_code}?include=site_statuses.site",
-        course
+        "/providers/AO/courses/#{course.course_code}?include=site_statuses.site",
+        course.to_jsonapi(include_string)
       )
       get(auth_dfe_callback_path)
       get(edit_vacancies_path)

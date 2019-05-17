@@ -1,10 +1,5 @@
 FactoryBot.define do
-  factory :course, class: Hash do
-    transient do
-      relationships { %i[site_statuses provider accrediting_provider] }
-      include_nulls { [] }
-    end
-
+  factory :course do
     sequence(:id)
     sequence(:course_code) { |n| "X10#{n}" }
     name { "English" }
@@ -12,8 +7,6 @@ FactoryBot.define do
     findable? { true }
     open_for_applications? { false }
     has_vacancies? { false }
-    site_statuses { [] }
-    provider      { nil }
     study_mode    { 'full_time' }
     content_status { "published" }
     ucas_status { 'running' }
@@ -70,25 +63,8 @@ FactoryBot.define do
       study_mode { 'part_time' }
     end
 
-    after :initialize do |course|
-      course.provider_code = provider.provider_code if course.provider
-    end
-
-    initialize_with do |_evaluator|
-      data_attributes = attributes.except(:id, *relationships)
-      relationships_map = Hash[
-        relationships.map do |relationship|
-          [relationship, __send__(relationship)]
-        end
-      ]
-
-      JSONAPIMockSerializable.new(
-        id,
-        'courses',
-        attributes: data_attributes,
-        relationships: relationships_map,
-        include_nulls: include_nulls
-      )
-    end
+    # after :initialize do |course|
+    #   course.provider_code = provider.provider_code if course.provider
+    # end
   end
 end
