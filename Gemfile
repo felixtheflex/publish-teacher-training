@@ -33,7 +33,7 @@ gem 'application_insights'
 gem 'pkg-config', '~> 1.3.7'
 
 # Parsing JSON from an API
-gem 'json_api_client'
+gem 'json_api_client', git: 'git@github.com:JsonApiClient/json_api_client.git'
 
 # For encoding/decoding web token used for authentication
 gem 'jwt'

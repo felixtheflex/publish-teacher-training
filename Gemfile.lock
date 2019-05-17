@@ -1,3 +1,14 @@
+GIT
+  remote: git@github.com:JsonApiClient/json_api_client.git
+  revision: e4b763f5579c4fae4b03dcc935b20627f5c14eaa
+  specs:
+    json_api_client (1.9.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      addressable (~> 2.2)
+      faraday (~> 0.15, >= 0.15.2)
+      faraday_middleware (~> 0.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -182,12 +193,6 @@ GEM
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
-    json_api_client (1.9.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      addressable (~> 2.2)
-      faraday (~> 0.15, >= 0.15.2)
-      faraday_middleware (~> 0.9)
     jsonapi-renderer (0.2.0)
     jsonapi-serializable (0.3.1)
       jsonapi-renderer (~> 0.2.0)
@@ -430,7 +435,7 @@ DEPENDENCIES
   guard
   guard-rspec
   guard-rubocop
-  json_api_client
+  json_api_client!
   jsonapi-renderer
   jsonapi-serializable
   jwt
