@@ -91,6 +91,7 @@ steps:
   inputs:
     Contents: |
      azure/**
+     rspec-results.xml
     TargetFolder: '$(build.artifactstagingdirectory)'
     OverWrite: true
 
