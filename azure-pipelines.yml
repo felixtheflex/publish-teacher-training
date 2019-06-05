@@ -40,7 +40,7 @@ steps:
     containerCommand: rails webpacker:compile
     runInBackground: false
 
-- bash: docker run --rm $(IMAGE_NAME) rails spec SPEC_OPTS='--format RspecJunitFormatter'
+- bash: docker run --rm $(IMAGE_NAME) rails spec SPEC_OPTS='--format RspecJunitFormatter' | tee rspec-results.xml
   displayName: 'Run tests'
 
 - task: Docker@1
