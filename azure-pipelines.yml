@@ -40,12 +40,10 @@ steps:
     containerCommand: rails webpacker:compile
     runInBackground: false
 
-- task: Bash@3
-  displayName: Run tests
-  inputs:
-    targetType: 'inline'
-    script: 'docker run --rm $(IMAGE_NAME) rails spec SPEC_OPTS=''--format RspecJunitFormatter'' | tee rspec-results.xml
-      sed -i ''$d;1,5d'' rspec-results.xml'
+- bash: |
+    docker run --rm $(IMAGE_NAME) rails spec SPEC_OPTS='--format RspecJunitFormatter' | tee rspec-results.xml
+    sed -i '$d;1,5d' rspec-results.xml
+  displayName: 'Run tests'
 
 - task: Docker@1
   displayName: Run ruby linter
