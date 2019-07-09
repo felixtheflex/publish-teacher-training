@@ -30,7 +30,8 @@ bundle-run "bundle exec rails webpacker:compile"
 
 echo "Running tests..."
 # bundle-run "bundle exec rails spec"
-bundle-run "bundle exec rspec --format d"
+# bundle-run "bundle exec rspec --format d"
+bundle-run "KNAPSACK_GENERATE_REPORT=true bundle exec rspec spec"
 
 echo "Running linters..."
 bundle-run "bundle exec rubocop app config db lib spec --format clang"
