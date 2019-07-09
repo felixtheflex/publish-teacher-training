@@ -26,11 +26,11 @@ function bundle-run() {
 }
 
 echo "Running webpack..."
-bundle-run "rails webpacker:compile"
+bundle-run "bundle exec rails webpacker:compile"
 
 echo "Running tests..."
-bundle-run "rails spec"
+bundle-run "bundle exec rails spec"
 
 echo "Running linters..."
-bundle-run "rubocop app config db lib spec --format clang"
-bundle-run "govuk-lint-sass app/webpacker/stylesheets"
+bundle-run "bundle exec rubocop app config db lib spec --format clang"
+bundle-run "bundle exec govuk-lint-sass app/webpacker/stylesheets"
