@@ -9,6 +9,11 @@ class CoursesController < ApplicationController
   before_action :filter_courses, only: %i[about requirements fees salary]
   before_action :build_copy_course, if: -> { params[:copy_from].present? }
 
+  CREATE_STEPS = %w[
+    outcome
+    entry_requirements
+  ].freeze
+
   def index; end
 
   def details; end
@@ -118,6 +123,13 @@ class CoursesController < ApplicationController
     end
 
     redirect_to provider_recruitment_cycle_course_path(@provider.provider_code, @course.recruitment_cycle_year, @course.course_code)
+  end
+
+  def new
+    redirect_to(
+      url_for(action: :new, controller: "courses/#{CREATE_STEPS.first}")
+      # new_outcome_for_provider_recruitment_cycle_courses_path()
+    )
   end
 
 private

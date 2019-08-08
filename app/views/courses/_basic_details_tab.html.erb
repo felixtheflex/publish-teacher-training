@@ -51,7 +51,7 @@
           <%= course.outcome %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to outcome_provider_recruitment_cycle_course_path(@provider.provider_code, course.recruitment_cycle_year, course.course_code), class: "govuk-link", data: { qa: "course__edit_entry_requirements_link" } do %>
+          <%= link_to edit_provider_recruitment_cycle_course_outcome_path(@provider.provider_code, course.recruitment_cycle_year, course.course_code), class: "govuk-link", data: { qa: "course__edit_entry_requirements_link" } do %>
             Change<span class="govuk-visually-hidden"> outcome</span>
           <% end %>
         </dd>

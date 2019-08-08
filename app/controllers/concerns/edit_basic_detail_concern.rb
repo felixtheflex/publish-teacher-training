@@ -1,9 +1,13 @@
-module EditBasicDetail
+module EditBasicDetailConcern
   extend ActiveSupport::Concern
 
   included do
     decorates_assigned :course
     before_action :build_course
+  end
+
+  def new
+    render :edit
   end
 
   def edit; end
@@ -27,6 +31,18 @@ module EditBasicDetail
     end
   end
 
+  def next_step
+    @errors = errors
+    return render :edit if @errors.any?
+
+    current_step = controller_name.gsub('courses/', '')
+    next_action_index = CoursesController::CREATE_STEPS.index(current_step) + 1
+    next_action = CoursesController::CREATE_STEPS[next_action_index]
+    redirect_to(action: :new,
+                controller: "courses/#{next_action}",
+                params: { course: create_params })
+  end
+
 private
 
   def build_course
@@ -35,5 +51,10 @@ private
       .where(provider_code: params[:provider_code])
       .find(params[:code])
       .first
+  end
+
+  def create_params
+    params.require('course')
+      .permit(:qualification)
   end
 end
