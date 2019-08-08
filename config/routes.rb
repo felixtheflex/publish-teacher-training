@@ -36,6 +36,16 @@ Rails.application.routes.draw do
       put '/about', on: :member, to: 'providers#update'
       post '/publish', on: :member, to: 'providers#publish'
 
+      resource :courses, only: [] do
+        resource :outcome, on: :member, only: %i[new], controller: 'courses/outcome' do
+          get 'continue'
+        end
+
+        resource :entry_requirements, on: :member, only: :new, controller: 'courses/entry_requirements' do
+          get 'continue'
+        end
+      end
+
       resources :courses, param: :code do
         delete '/', on: :member, to: 'courses#destroy'
 
@@ -60,12 +70,6 @@ Rails.application.routes.draw do
         get '/publish', on: :member, to: 'courses#details'
         post '/publish', on: :member, to: 'courses#publish'
 
-        get '/entry-requirements', on: :member, to: 'courses/entry_requirements#edit'
-        put '/entry-requirements', on: :member, to: 'courses/entry_requirements#update'
-
-        get '/outcome', on: :member, to: 'courses/outcome#edit'
-        put '/outcome', on: :member, to: 'courses/outcome#update'
-
         resource :outcome,
                  on: :member,
                  only: %i[edit update],
@@ -77,17 +81,6 @@ Rails.application.routes.draw do
                  controller: 'courses/entry_requirements'
       end
 
-      resource :courses do
-        resource :outcome,
-                 on: :member,
-                 only: %i[create new],
-                 controller: 'courses/outcome'
-
-        resource :entry_requirements,
-                 on: :member,
-                 only: %i[create new],
-                 controller: 'courses/entry_requirements'
-      end
       resources :sites, path: 'locations', on: :member, except: %i[destroy show]
     end
   end
