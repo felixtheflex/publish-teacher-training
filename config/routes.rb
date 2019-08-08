@@ -66,49 +66,27 @@ Rails.application.routes.draw do
         get '/outcome', on: :member, to: 'courses/outcome#edit'
         put '/outcome', on: :member, to: 'courses/outcome#update'
 
-        get 'new/entry_requirements',
-            on: :collection,
-            to: 'courses/entry_requirements#new',
-            as: 'new_entry_requirements_for'
-        get 'new/entry_requirements/next_step',
-            on: :collection,
-            to: 'courses/entry_requirements#next_step',
-            as: 'next_step_entry_requirements_for'
-        resource :entry_requirements,
-                 on: :member,
-                 only: %i[new update],
-                 controller: 'courses/entry_requirements'
-
-        get 'new/outcome',
-            on: :collection,
-            to: 'courses/outcome#new',
-            as: 'new_outcome_for'
-        get 'new/outcome/next_step',
-            on: :collection,
-            to: 'courses/outcome#next_step',
-            as: 'next_step_outcome_for'
         resource :outcome,
                  on: :member,
                  only: %i[edit update],
                  controller: 'courses/outcome'
+
+        resource :entry_requirements,
+                 on: :member,
+                 only: %i[edit update],
+                 controller: 'courses/entry_requirements'
       end
 
-      # resource :courses, on: :collection, only: :new do
-      # namespace 'courses' do
-      #   namespace 'new' do
-      #     get 'outcome', to: 'courses/outcome#new', as: 'outcome'
-      #     get 'entry_requirements', to: 'courses/outcome#new', as: 'entry_requirements'
-      #   end
-      # end
-
       resource :courses do
-        get 'new/outcome',
-            on: :collection,
-            to: 'courses/outcome#new'
         resource :outcome,
                  on: :member,
-                 only: %i[create new ],
+                 only: %i[create new],
                  controller: 'courses/outcome'
+
+        resource :entry_requirements,
+                 on: :member,
+                 only: %i[create new],
+                 controller: 'courses/entry_requirements'
       end
       resources :sites, path: 'locations', on: :member, except: %i[destroy show]
     end
