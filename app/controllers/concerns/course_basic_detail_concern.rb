@@ -66,7 +66,7 @@ private
       attrs: {
         course: course_params.to_unsafe_hash
       }
-    )
+    ).first
   end
 
   def build_provider
