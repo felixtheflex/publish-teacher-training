@@ -150,7 +150,11 @@ private
       :other_requirements,
       :personal_qualities,
       :salary_details,
-      :required_qualifications
+      :required_qualifications,
+      :qualification, # qualification is actually "outcome"
+      :maths,
+      :english,
+      :science
     )
   end
 

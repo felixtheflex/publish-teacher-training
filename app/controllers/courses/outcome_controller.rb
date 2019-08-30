@@ -9,9 +9,9 @@ module Courses
         render :new
       else
         redirect_to new_provider_recruitment_cycle_courses_entry_requirements_path(
-          params[:provider_code],
-          params[:recruitment_cycle_year],
-          course_params
+                      # TODO: don't pass along everything in params, e.g.
+                      #       :controller, :action, etc. only :course probably
+                      params.to_unsafe_hash
         )
       end
     end
@@ -22,8 +22,8 @@ module Courses
       params.dig(:course, :qualification) ? {} : { qualification: ["Pick an outcome"] }
     end
 
-    def course_params
-      params.require(:course).permit(:qualification)
-    end
+    # def course_params
+    #   params.require(:course).permit(:qualification)
+    # end
   end
 end
