@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe ProvidersController, type: :controller do
+  let(:current_recruitment_cycle) { build(:recruitment_cycle) }
+  let(:next_recruitment_cycle) { build(:recruitment_cycle, :next_cycle) }
+
   context "with authenticated user" do
     before do
       stub_omniauth
@@ -18,11 +21,14 @@ describe ProvidersController, type: :controller do
         "/recruitment_cycles/#{current_recruitment_cycle.year}",
         current_recruitment_cycle.to_jsonapi
       )
+      stub_api_v2_request(
+        "/recruitment_cycles/#{next_recruitment_cycle.year}",
+        next_recruitment_cycle.to_jsonapi
+      )
     end
 
     describe 'GET #index' do
       context 'with 2 or more providers' do
-        let(:current_recruitment_cycle) { build(:recruitment_cycle) }
 
         let(:providers) do
           [
@@ -55,7 +61,6 @@ describe ProvidersController, type: :controller do
 
       context 'with 1 provider' do
         let(:provider) { build(:provider) }
-        let(:current_recruitment_cycle) { build(:recruitment_cycle) }
 
         before do
           stub_api_v2_request(
@@ -72,7 +77,6 @@ describe ProvidersController, type: :controller do
 
       context 'with 0 providers' do
         let(:providers_response) { nil }
-        let(:current_recruitment_cycle) { build(:recruitment_cycle) }
 
         before do
           stub_api_v2_request(
