@@ -38,7 +38,7 @@
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-summary-list govuk-summary-list--short">
       <h3 class="govuk-heading-m govuk-!-font-size-27">
-        <%= govuk_link_to "Contact details", contact_provider_recruitment_cycle_path(@provider.provider_code, @provider.recruitment_cycle_year) %>
+        Contact details
       </h3>
       <dl class="govuk-summary-list">
         <%= enrichment_summary_item(:provider, 'Email address', @provider.email, ['email']) %>
@@ -50,7 +50,7 @@
 
     <div class="govuk-summary-list govuk-summary-list--short">
       <h3 class="govuk-heading-m govuk-!-font-size-27">
-        <%= govuk_link_to "About your organisation", about_provider_recruitment_cycle_path(@provider.provider_code, @provider.recruitment_cycle_year) %>
+        About your organisation
       </h3>
       <dl class="govuk-summary-list">
         <%= enrichment_summary_item(:provider, 'About your organisation', @provider.train_with_us, ['train_with_us']) %>
@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <aside class="govuk-grid-column-one-third" data-qa="provider__status_panel">
+  <!-- <aside class="govuk-grid-column-one-third" data-qa="provider__status_panel">
     <div class="app-related">
       <div class="govuk-!-margin-bottom-6" data-qa="provider__content-status">
         <%= provider.status_tag %>
@@ -93,5 +93,5 @@
           <% end %>
       <% end %>
     </div>
-  </aside>
+  </aside> -->
 </div>

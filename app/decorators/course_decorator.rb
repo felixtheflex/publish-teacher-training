@@ -13,7 +13,9 @@ class CourseDecorator < ApplicationDecorator
 
   def on_find(provider = object.provider)
     if object.findable?
-      if current_cycle?
+      if a_previous_cycle?
+        "Yes"
+      elsif current_cycle?
         h.govuk_link_to("Yes - view online", h.search_ui_course_page_url(provider_code: provider.provider_code, course_code: object.course_code))
       elsif next_cycle?
         "Yes – from October"
@@ -109,6 +111,10 @@ class CourseDecorator < ApplicationDecorator
     end
   end
 
+  def a_previous_cycle?
+    course.recruitment_cycle_year.to_i < Settings.current_cycle
+  end
+
   def current_cycle?
     course.recruitment_cycle_year.to_i == Settings.current_cycle
   end
@@ -140,9 +146,9 @@ private
 
   def not_on_find
     if object.new_and_not_running?
-      'No – still in draft'
+      "No – #{a_previous_cycle? ? "not published" : "still in draft"}"
     else
-      'No'
+      a_previous_cycle? ? "No – not set to running" : "No"
     end
   end
 
