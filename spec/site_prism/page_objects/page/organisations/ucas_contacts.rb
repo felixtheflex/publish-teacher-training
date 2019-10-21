@@ -10,6 +10,7 @@ module PageObjects
         element :finance_contact, '[data-qa="provider__finance_contact"]'
         element :fraud_contact, '[data-qa="provider__fraud_contact"]'
         element :admin_contact, '[data-qa="provider__admin_contact"]'
+        element :admin_contact_link, '[data-qa="admin_contact__change"]', text: "Change"
         element :gt12_contact, '[data-qa="provider__gt12_contact"]'
         element :application_alert_contact, '[data-qa="provider__application_alert_contact"]'
         element :send_application_alerts, '[data-qa="provider__send_application_alerts"]'

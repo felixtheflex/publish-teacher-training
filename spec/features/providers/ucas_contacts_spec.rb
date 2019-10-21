@@ -62,4 +62,10 @@ feature "View provider UCAS contact", type: :feature do
       expect(current_path).to eq alerts_provider_ucas_contacts_path(provider.provider_code)
     end
   end
+
+  scenario "can navigate to the edit admin contact screen" do
+    visit provider_ucas_contacts_path(provider.provider_code)
+    org_ucas_contacts_page.admin_contact_link.click
+    expect(current_path).to eq admin_contact_provider_ucas_contacts_path(provider.provider_code)
+  end
 end

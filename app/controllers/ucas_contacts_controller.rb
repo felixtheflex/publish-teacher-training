@@ -15,6 +15,8 @@ class UcasContactsController < ApplicationController
 
   def alerts; end
 
+  def admin_contact; end
+
   def update_alerts
     email_changed = @provider.application_alert_contact != provider_params["application_alert_contact"]
     permission_given = params["provider"]["share_with_ucas_permission"] != "1"
