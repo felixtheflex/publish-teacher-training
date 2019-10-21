@@ -2,11 +2,11 @@ dfe_signin:
   issuer: https://oidc.signin.education.gov.uk
   secret: please_change_me # Override with SETTINGS__DFE_SIGNIN__SECRET
   profile: https://profile.signin.education.gov.uk
-  base_url: https://s121p01-mcfe-as.azurewebsites.net/
+  base_url: https://s121p01-mcfe-as.azurewebsites.net
 manage_backend:
-  base_url: https://s121p01-mcbe-as.azurewebsites.net/
+  base_url: https://s121p01-mcbe-as.azurewebsites.net
 search_ui:
-  base_url: https://s121p01-sacui-as.azurewebsites.net/
+  base_url: https://s121p01-sacui-as.azurewebsites.net
 environment:
   label: "Beta"
   selector_name: "beta"
