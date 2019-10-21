@@ -1,0 +1,59 @@
+<%= content_for :page_title, "Ucas Administrator" %>
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(provider_ucas_contacts_path(@provider.provider_code)) %>
+<% end %>
+<% content_for :after_content do %>
+  <%= govuk_back_link_to(provider_ucas_contacts_path(@provider.provider_code)) %>
+<% end %>
+
+
+<h1 class="govuk-heading-xl">
+  UCAS administrator
+</h1>
+
+<div class="govuk-grid-row add-top-margin">
+  <div class="govuk-grid-column-two-thirds">
+    <form action="/ucas/apply-preferences" method="post">
+      <p>This person is responsible for creating and maintaining UCAS user&nbsp;accounts.</p>
+
+      <h2 class="govuk-heading-l">Request a change to your UCAS administrator</h2>
+
+      <p>Changes can take up to 7 days to process.</p>
+
+      <div data-qa="ucas_contacts__alerts_enabled">
+        <div class="govuk-form-group ">
+          <label class="govuk-label " for="ucas-admin-name">Name</label>
+          <input class="govuk-input govuk-input--width-20" name="ucas-admin-name" type="text" id="ucas-admin-name" value="Joe Admin">
+        </div>
+
+        <div class="govuk-form-group ">
+          <label class="govuk-label " for="ucas-admin-email">Email address</label>
+          <input class="govuk-input govuk-input--width-20" name="ucas-admin-email" type="text" id="ucas-admin-email" value="admin@myorg.ac.uk">
+        </div>
+
+        <div class="govuk-form-group ">
+          <label class="govuk-label " for="ucas-admin-telephone">Telephone number</label>
+          <input class="govuk-input govuk-input--width-10" name="ucas-admin-telephone" type="text" id="ucas-admin-telephone" value="01234 321456">
+        </div>
+
+        <div class="govuk-form-group ">
+          <div class="govuk-checkboxes" data-module="checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input id="checkbox-part-1" type="checkbox" name="agree-to-share" value="I give permission to share this information with UCAS" class="govuk-checkboxes__input">
+              <label for="checkbox-part-1" class="govuk-label govuk-checkboxes__label">
+                I give permission to share this information with UCAS
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group add-double-bottom-margin">
+        <input type="submit" class="govuk-button" value="Request changes">
+      </div>
+      <p class="govuk-body">
+        <%= link_to 'Cancel changes', provider_ucas_contacts_path(@provider.provider_code), class: "govuk-link govuk-link--no-visited-state" %>
+      </p>
+    </form>
+  </div>
+</div>
