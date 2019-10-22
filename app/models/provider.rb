@@ -33,6 +33,30 @@ class Provider < Base
     content_status == "published"
   end
 
+  def admin_contact_name
+    admin_contact['name'] if admin_contact.present?
+  end
+
+  def admin_contact_email
+    admin_contact['email']
+  end
+
+  def admin_contact_telephone
+    admin_contact['telephone']
+  end
+
+  # def admin_contact_name=(value)
+  #   admin_contact['name'] = value
+  # end
+  #
+  # def admin_contact_email=(value)
+  #   admin_contact['email'] = value
+  # end
+  #
+  # def telephone=(value)
+  #   admin_contact['telephone'] = value
+  # end
+
 private
 
   def post_base_url

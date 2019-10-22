@@ -1,7 +1,7 @@
 require "rails_helper"
 
-feature "Edit UCAS email alerts", type: :feature do
-  let(:page) { PageObjects::Page::Organisations::UcasContactsAlerts.new }
+feature "Edit UCAS admin contact details", type: :feature do
+  let(:page) { PageObjects::Page::Organisations::AdminContact.new }
   let(:org_ucas_contacts_page) { PageObjects::Page::Organisations::UcasContacts.new }
   let(:provider) { build(:provider) }
   let(:current_recruitment_cycle) { build :recruitment_cycle }
@@ -12,69 +12,62 @@ feature "Edit UCAS email alerts", type: :feature do
     visit admin_contact_provider_ucas_contacts_path(provider.provider_code)
   end
 
-  scenario "selecting and saving an option" do
+  scenario "can cancel changes" do
     expect(current_path).to eq admin_contact_provider_ucas_contacts_path(provider.provider_code)
-    expect(page.title).to have_content("Ucas Administrator")
-    expect(page.main_heading).to have_content("Ucas Administrator")
-    # expect(page).to have_alerts_enabled_fields
-    # expect(page.alerts_enabled_fields.all).not_to be_checked
-    # expect(page.alerts_enabled_fields.none).to be_checked
+    click_on "Cancel changes"
+    expect(org_ucas_contacts_page).to be_displayed
+  end
+
+  scenario "changing the email address" do
+    expect(current_path).to eq admin_contact_provider_ucas_contacts_path(provider.provider_code)
+    expect(page.title).to have_content("UCAS administrator")
+    expect(page.main_heading).to have_content("UCAS administrator")
+    expect(page).to have_admin_contact_details_form
+    binding.pry
+    expect(page.admin_contact_details_form.name).to have_content provider.admin_contact['name']
+    expect(page.admin_contact_details_form.email).to eq provider.admin_contact['email']
+    expect(page.admin_contact_details_form.telephone).to eq provider.admin_contact['telephone']
     # set_alerts_request_stub_expectation("all")
     # page.alerts_enabled_fields.all.click
     # click_on "Save"
     # expect(org_ucas_contacts_page).to be_displayed
     # expect(org_ucas_contacts_page.flash).to have_content("Your changes have been saved")
+    # page.application_alert_contact.set "bob@example.org"
+    # page.share_with_ucas_permission.click
+    # set_alerts_request_stub_expectation do |request_attributes|
+    #   expect(request_attributes["send_application_alerts"]).to eq("none")
+    #   expect(request_attributes["application_alert_contact"]).to eq("bob@example.org")
+    # end
+    # click_on "Save"
+    # expect(org_ucas_contacts_page).to be_displayed
+    # expect(org_ucas_contacts_page.flash).to have_content("Your changes have been saved")
   end
 
-  # scenario "can cancel changes" do
-  #   expect(current_path).to eq alerts_provider_ucas_contacts_path(provider.provider_code)
-  #   click_on "Cancel changes"
-  #   expect(org_ucas_contacts_page).to be_displayed
-  # end
-  #
-  # context "email alerts: none" do
-  #   let(:provider) { build(:provider, send_application_alerts: "none") }
-  #
-  #   scenario "selecting and saving an option" do
-  #     expect(page.alerts_enabled_fields.all).not_to be_checked
-  #     expect(page.alerts_enabled_fields.none).to be_checked
-  #     set_alerts_request_stub_expectation("all")
-  #     page.alerts_enabled_fields.all.click
-  #     click_on "Save"
-  #     expect(org_ucas_contacts_page).to be_displayed
-  #   end
-  # end
-  #
-  # context "email alerts: all" do
-  #   let(:provider) { build(:provider, send_application_alerts: "all") }
-  #
-  #   scenario "selecting and saving an option" do
-  #     expect(page.alerts_enabled_fields.all).to be_checked
-  #     expect(page.alerts_enabled_fields.none).not_to be_checked
-  #     set_alerts_request_stub_expectation("none")
-  #     page.alerts_enabled_fields.none.click
-  #     click_on "Save"
-  #     expect(org_ucas_contacts_page).to be_displayed
-  #   end
-  # end
-  #
-  # scenario "can navigate back to ucas contacts page" do
-  #   click_on "Back"
-  #   expect(org_ucas_contacts_page).to be_displayed
-  # end
+  xscenario "not ticking permissions box for sharing with ucas" do
+    page.application_alert_contact.set "bob@example.org"
+    click_on "Save"
+    expect(page).to be_displayed(provider_code: provider.provider_code)
+    expect(page.error_summary).to have_content("Please give permission to share this email address with UCAS")
+    expect(page.application_alert_contact.value).to eq("bob@example.org")
+  end
+
+  scenario "can navigate back to ucas contacts page" do
+    click_on "Back"
+    expect(org_ucas_contacts_page).to be_displayed
+  end
 
 private
 
-  # def set_alerts_request_stub_expectation(expected_setting)
-  #   post_stub = stub_api_v2_request(
-  #     "/recruitment_cycles/#{current_recruitment_cycle.year}" \
-  #     "/providers/#{provider.provider_code}",
-  #     provider.to_jsonapi,
-  #     :patch, 200
-  #   )
-  #   post_stub.with do |request|
-  #     body = JSON.parse(request.body)
-  #     expect(body["data"]["attributes"]["send_application_alerts"]).to eq(expected_setting)
-  #   end
-  # end
+  def set_alerts_request_stub_expectation(&attribute_validator)
+    stub_api_v2_request(
+      "/recruitment_cycles/#{current_recruitment_cycle.year}" \
+      "/providers/#{provider.provider_code}",
+      provider.to_jsonapi,
+      :patch,
+      200,
+    ) do |request_body_json|
+      request_attributes = request_body_json["data"]["attributes"]
+      attribute_validator.call(request_attributes)
+    end
+  end
 end

@@ -6,9 +6,10 @@ module PageObjects
 
         element :main_heading, '[data-qa="ucas_contacts__admin_contact__main_heading"]'
 
-        section :alerts_enabled_fields, '[data-qa="ucas_contacts__alerts_enabled"]' do
-          element :all, '[data-qa="ucas_contacts__alerts_enabled__all"]'
-          element :none, '[data-qa="ucas_contacts__alerts_enabled__none"]'
+        section :admin_contact_details_form, '[data-qa="ucas_contacts__admin_details_form"]' do
+          element :name, '[data-qa="ucas_contacts__admin_details_form__name"]'
+          element :email, '[data-qa="ucas_contacts__admin_details_form__email"]'
+          element :telephone, '[data-qa="ucas_contacts__admin_details_form__telephone"]'
         end
       end
     end
