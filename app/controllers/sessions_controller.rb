@@ -29,10 +29,14 @@ class SessionsController < ApplicationController
   end
 
   def signout
-    if current_user.present?
-      redirect_to "#{Settings.dfe_signin.issuer}/session/end?id_token_hint=#{current_user['credentials']['id_token']}&post_logout_redirect_uri=#{Settings.dfe_signin.base_url}/auth/dfe/signout"
+    if development_mode_auth?
+      session.reset!
     else
-      redirect_to root_path
+      if current_user.present?
+        redirect_to "#{Settings.dfe_signin.issuer}/session/end?id_token_hint=#{current_user['credentials']['id_token']}&post_logout_redirect_uri=#{Settings.dfe_signin.base_url}/auth/dfe/signout"
+      else
+        redirect_to root_path
+      end
     end
   end
 
