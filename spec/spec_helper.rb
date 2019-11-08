@@ -6,7 +6,7 @@ require "simplecov"
 require "simplecov-console"
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
-SimpleCov.start
+SimpleCov.start unless ENV["NO_COVER"]
 # If running specs in parallel this ensures SimpleCov results appears
 # upon completion of all specs
 if ENV["PARALLEL_TEST_GROUPS"]
