@@ -1,4 +1,6 @@
 class SiteStatus < Base
+  properties :published_on_ucas?
+
   def full_time_vacancies?
     vac_status == "full_time_vacancies"
   end

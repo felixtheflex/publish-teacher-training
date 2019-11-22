@@ -12,6 +12,7 @@ class Course < Base
   property :maths, type: :string
   property :english, type: :string
   property :science, type: :string
+  property :program_type, type: :string
 
   self.primary_key = :course_code
 

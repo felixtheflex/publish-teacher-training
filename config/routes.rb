@@ -169,6 +169,10 @@ Rails.application.routes.draw do
       end
 
       resources :sites, path: "locations", on: :member, except: %i[destroy show]
+
+      namespace :accredited_body, path: "accredited-body" do
+        resources :courses, only: :index
+      end
     end
   end
 
