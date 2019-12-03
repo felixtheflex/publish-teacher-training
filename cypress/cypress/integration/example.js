@@ -85,7 +85,7 @@ describe("login", function () {
   });
 
   it("logging in ", function () {
-    cy.loginWithSignIn("tim.abell+4@digital.education.gov.uk", 'omgsquirrel!88')
+    cy.loginWithSignIn(Cypress.env('email'), Cypress.env('password'))
       .visit(urlBase);
 
     cy.url().should('eq', urlBase);

@@ -18,14 +18,18 @@ yarn install
 
 to open cypress
 ```
-yarn run cypress open --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
+yarn run cy:open -- --env 'email=someone@test.com,password=change me' --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
 
+# or using /config/local.json
+yarn run cy:open --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
 ```
 
 to run cypress
 ```
-yarn run cypress run --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
+yarn run cy:run --env 'email=someone@test.com,password=change me' --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
 
+# or using /config/local.json
+yarn run cy:run --browser ~/repos/dfe/manage-courses-frontend/cypress/browsers/chrome-linux/chrome
 ```
 
 ## upgrading cypress
