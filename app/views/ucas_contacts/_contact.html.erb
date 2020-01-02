@@ -1,0 +1,23 @@
+<%= form.label :name, "Name", class: 'govuk-label' %>
+<%= form.text_field :name, value: contact&.dig("name"), data: { qa: 'contact__name' }, class: 'govuk-textarea govuk-!-width-one-half' %>
+
+<%= form.label :email, "Email", class: 'govuk-label' %>
+<%= form.text_field :email, value: contact&.dig("email"), data: { qa: 'contact__email' }, class: 'govuk-textarea govuk-!-width-one-half' %>
+
+<%= form.label :telephone, "Telephone", class: 'govuk-label' %>
+<%= form.text_field :telephone, value: contact&.dig("telephone"), data: { qa: 'contact__telephone' }, class: 'govuk-textarea govuk-!-width-one-third' %>
+
+<div class="govuk-checkboxes" data-module="checkboxes">
+  <%= render 'shared/error_messages', error_keys: [:share_with_ucas_permission] %>
+  <div class="govuk-checkboxes__item">
+    <%= form.check_box :share_with_ucas_permission,
+                          checked: true,
+                          class: 'govuk-checkboxes__input',
+                          data: { qa: 'contact__share_with_ucas_permission'}
+    %>
+    <%= form.label :share_with_ucas_permission,
+                   class: 'govuk-label govuk-checkboxes__label' do %>
+      I give permission to share this email address with UCAS
+    <% end %>
+  </div>
+</div>
