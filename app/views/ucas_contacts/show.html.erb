@@ -35,6 +35,7 @@
         <dt class="govuk-summary-list__key">
           UCAS Teacher Training (UTT) correspondent
         </dt>
+
         <dd class="govuk-summary-list__value">
           <p class="govuk-body" data-qa="provider__utt_contact">
             <% if @provider.utt_contact.present? %>
@@ -45,11 +46,13 @@
               Information unknown
             <% end %>
           </p>
+
           <p class="govuk-body-s">
             This person will receive the UCAS monthly bulletin, which includes information about deadlines for application decisions
           </p>
         </dd>
-        <dd class="govuk-summary-list__actions"></dd>
+        <dd class="govuk-summary-list__actions">
+        </dd>
       </div>
 
       <div class="govuk-summary-list__row">
@@ -133,7 +136,11 @@
             This person is responsible for setting up and maintaining UCAS user accounts.
           </p>
         </dd>
-        <dd class="govuk-summary-list__actions"></dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to admin_contact_provider_ucas_contacts_path(@provider.provider_code), class: "govuk-link", data: { qa: "provider__admin_contact_link" } do %>
+          Change<span class="govuk-visually-hidden"></span>
+          <% end %>
+        </dd>
       </div>
     </dl>
 
