@@ -1,0 +1,49 @@
+<%= content_for :page_title, "UCAS Teacher Training (UTT) correspondent" %>
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(provider_ucas_contacts_path(@provider.provider_code)) %>
+<% end %>
+<%= render 'shared/errors' %>
+
+<div class="govuk-main-wrapper">
+  <h1 class="govuk-heading-xl">
+    UCAS Teacher Training (UTT) correspondent  </h1>
+
+  <p class="govuk-body">This person is responsible for creating and maintaining UCAS user&nbsp;accounts.</p>
+
+  <h2 class="govuk-heading-l">Request a change to your UCAS administrator</h2>
+
+  <p class="govuk-body">Changes can take up to 7 days to process.</p>
+
+  <div class="govuk-grid-row add-top-margin">
+    <div class="govuk-grid-column-two-thirds">
+      <%= form_with model: @provider,
+          url: admin_contact_provider_ucas_contacts_path(@provider.provider_code),
+          method: :patch do |form| %>
+
+          <%= render partial: 'contact', locals: { form: form, contact: @provider.admin_contact } %>
+            <div class="govuk-checkboxes" data-module="checkboxes">
+              <%= render 'shared/error_messages', error_keys: [:share_with_ucas_permission] %>
+              <div class="govuk-checkboxes__item">
+                <%= form.check_box :share_with_ucas_permission,
+                                      checked: true,
+                                      class: 'govuk-checkboxes__input',
+                                      data: { qa: 'admin_contact__share_with_ucas_permission'}
+                %>
+                <%= form.label :share_with_ucas_permission,
+                               class: 'govuk-label govuk-checkboxes__label' do %>
+                  I give permission to share this email address with UCAS
+                <% end %>
+              </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l">
+
+            <%= form.submit "Save", class: "govuk-button", data: { qa: 'admin_contact__save' } %>
+        <% end %>
+
+      <p class="govuk-body">
+        <%= link_to 'Cancel changes', provider_ucas_contacts_path(@provider.provider_code), class: "govuk-link govuk-link--no-visited-state" %>
+      </p>
+    </div>
+  </div>
+</div>

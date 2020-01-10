@@ -52,6 +52,11 @@
           </p>
         </dd>
         <dd class="govuk-summary-list__actions">
+          <%= link_to utt_contact_provider_ucas_contacts_path(@provider.provider_code), class: "govuk-link", data: { qa: "provider__utt_contact_link" } do %>
+          Change<span class="govuk-visually-hidden"></span>
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
         </dd>
       </div>
 

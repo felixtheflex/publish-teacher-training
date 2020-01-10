@@ -62,6 +62,8 @@ class UcasContactsController < ApplicationController
     end
   end
 
+  def utt_contact; end
+
 private
 
   def provider_params

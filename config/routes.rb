@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       patch "/alerts", on: :member, to: "ucas_contacts#update_alerts"
       get "/admin-contact", on: :member, to: "ucas_contacts#admin_contact"
       patch "/admin-contact", on: :member, to: "ucas_contacts#update_admin_contact"
+      get "/utt-contact", on: :member, to: "ucas_contacts#utt_contact"
+      patch "/utt-contact", on: :member, to: "ucas_contacts#update_utt_contact"
     end
 
     # TODO: Extract year constraint to future proof for future cycles

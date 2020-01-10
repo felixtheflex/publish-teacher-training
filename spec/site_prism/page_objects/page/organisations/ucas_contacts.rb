@@ -6,6 +6,7 @@ module PageObjects
 
         element :flash, ".govuk-success-summary"
         element :utt_contact, '[data-qa="provider__utt_contact"]'
+        element :utt_contact_link, 'a[data-qa="provider__utt_contact_link"]', text: "Change"
         element :web_link_contact, '[data-qa="provider__web_link_contact"]'
         element :finance_contact, '[data-qa="provider__finance_contact"]'
         element :fraud_contact, '[data-qa="provider__fraud_contact"]'
