@@ -38,6 +38,42 @@ class UcasContactsController < ApplicationController
   def admin_contact; end
 
   def update_admin_contact
+    binding.pry
+    if update_contact("admin_contact")
+        @provider.update(admin_contact: update_contact("admin_contact"))
+        redirect_to provider_ucas_contacts_path(@provider.provider_code),
+                    flash: { success: "Your changes have been saved" }
+    elsif
+      binding.pry
+      add_contact_errors
+      @provider.admin_contact["name"] = provider_params["name"]
+      @provider.admin_contact["email"] = provider_params["email"]
+      @provider.admin_contact["telephone"] = provider_params["telephone"]
+      render :admin_contact
+    end
+  end
+
+  def utt_contact; end
+
+  def update_utt_contact
+    if update_contact("utt_contact")
+      @provider.update(utt_contact: update_contact("utt_contact"))
+      redirect_to provider_ucas_contacts_path(@provider.provider_code),
+                  flash: { success: "Your changes have been saved" }
+    else
+      add_contact_errors
+      @provider.utt_contact["name"] = provider_params["name"]
+      @provider.utt_contact["email"] = provider_params["email"]
+      @provider.utt_contact["telephone"] = provider_params["telephone"]
+      render :utt_contact
+    end
+  end
+
+private
+
+  def update_contact(contact)
+    contact_hash = @provider.send(contact)
+
     name = provider_params["name"]
     email = provider_params["email"]
     telephone = provider_params["telephone"]
@@ -47,31 +83,31 @@ class UcasContactsController < ApplicationController
     telephone = nil if telephone.blank?
 
     permission_given = provider_params["share_with_ucas_permission"] == "1"
-    require_permission = admin_contact_details_changed(name, email, telephone)
+    require_permission = contact_details_changed(name, email, telephone, contact_hash)
 
     if require_permission && !permission_given
-      @errors = { share_with_ucas_permission: ["Please give permission to share this these details with UCAS"] }
-      @provider.admin_contact["name"] = provider_params["name"]
-      @provider.admin_contact["email"] = provider_params["email"]
-      @provider.admin_contact["telephone"] = provider_params["telephone"]
-      render :admin_contact
+      false
     else
-      @provider.update(admin_contact: { "name" => name, "email" => email, "telephone" => telephone })
-      redirect_to provider_ucas_contacts_path(@provider.provider_code),
-                  flash: { success: "Your changes have been saved" }
+      { "name" => name, "email" => email, "telephone" => telephone }
     end
   end
-
-  def utt_contact; end
-
-private
 
   def provider_params
     params.require(:provider)
       .permit(:send_application_alerts, :application_alert_contact, :share_with_ucas_permission, :name, :email, :telephone)
   end
 
-  def admin_contact_details_changed(name, email, telephone)
-    @provider.admin_contact&.dig("name") != name || @provider.admin_contact.dig("email") != email || @provider.admin_contact.dig("telephone") != telephone
+  def contact_details_changed(name, email, telephone, contact_hash)
+    contact_hash&.dig("name") != name || contact_hash.dig("email") != email || contact_hash.dig("telephone") != telephone
+  end
+
+  def add_contact_errors
+    binding.pry
+    if provider_params["share_with_ucas_permission"] != "1"
+      @errors = { share_with_ucas_permission: ["Please give permission to share this these details with UCAS"],
+                  contacts: [@provider.errors.messages[:base]] }
+    else
+      @errors = { share_with_ucas_permission: ["Please give permission to share this these details with UCAS"] }
+    end
   end
 end

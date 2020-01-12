@@ -21,11 +21,7 @@
           url: admin_contact_provider_ucas_contacts_path(@provider.provider_code),
           method: :patch do |form| %>
           <%= render partial: 'contact', locals: { form: form, contact: @provider.admin_contact } %>
-
-            <hr class="govuk-section-break govuk-section-break--l">
-
-            <%= form.submit "Save", class: "govuk-button", data: { qa: 'contact__save' } %>
-        <% end %>
+      <% end %>
 
       <p class="govuk-body">
         <%= link_to 'Cancel changes', provider_ucas_contacts_path(@provider.provider_code), class: "govuk-link govuk-link--no-visited-state" %>

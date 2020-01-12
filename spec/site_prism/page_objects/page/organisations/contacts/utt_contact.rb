@@ -2,7 +2,7 @@ module PageObjects
   module Page
     module Organisations
       module Contacts
-        class AdminContact < PageObjects::Base
+        class UTTContact < PageObjects::Base
           set_url "/organisations/{provider_code}/ucas-contacts/utt-contact"
 
           element :name, '[data-qa="contact__name"]'

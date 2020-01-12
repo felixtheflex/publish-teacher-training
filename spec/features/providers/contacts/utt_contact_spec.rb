@@ -41,33 +41,33 @@ feature "View provider UCAS contact", type: :feature do
     expect(utt_contact_page.telephone.value).to eq(provider.utt_contact["telephone"])
   end
 
-  # scenario "can navigate back to ucas contacts page" do
-  #   click_on "Back"
-  #   expect(org_ucas_contacts_page).to be_displayed
-  # end
+  scenario "can navigate back to ucas contacts page" do
+    click_on "Back"
+    expect(org_ucas_contacts_page).to be_displayed
+  end
+
+  scenario "updating the UTT contact" do
+    utt_contact_page.name.set("Updated Name")
+    utt_contact_page.email.set("updated@email.com")
+    utt_contact_page.telephone.set("12345 678900")
+    utt_contact_page.save.click
+
+    expect(current_path).to eq provider_ucas_contacts_path(provider.provider_code)
+    expect(org_ucas_contacts_page.flash).to have_content("Your changes have been saved")
+  end
   #
-  # scenario "updating the UTT contact" do
-  #   utt_contact_page.name.set("Updated Name")
-  #   utt_contact_page.email.set("updated@email.com")
-  #   utt_contact_page.telephone.set("12345 678900")
-  #   utt_contact_page.save.click
-  #
-  #   expect(current_path).to eq provider_ucas_contacts_path(provider.provider_code)
-  #   expect(org_ucas_contacts_page.flash).to have_content("Your changes have been saved")
-  # end
-  #
-  # scenario "not ticking permissions box for sharing with ucas" do
-  #   utt_contact_page.name.set("Updated Name")
-  #   utt_contact_page.share_with_ucas_permission.click
-  #   utt_contact_page.save.click
-  #
-  #   expect(utt_contact_page).to be_displayed(provider_code: provider.provider_code)
-  #   expect(utt_contact_page).to have_content("Please give permission to share this these details with UCAS")
-  #   expect(utt_contact_page.name.value).to eq("Updated Name")
-  # end
-  #
-  # scenario "can cancel changes" do
-  #   click_on "Cancel changes"
-  #   expect(org_ucas_contacts_page).to be_displayed
-  # end
+  scenario "not ticking permissions box for sharing with ucas" do
+    utt_contact_page.name.set("Updated Name")
+    utt_contact_page.share_with_ucas_permission.click
+    utt_contact_page.save.click
+
+    expect(utt_contact_page).to be_displayed(provider_code: provider.provider_code)
+    expect(utt_contact_page).to have_content("Please give permission to share this these details with UCAS")
+    expect(utt_contact_page.name.value).to eq("Updated Name")
+  end
+
+  scenario "can cancel changes" do
+    click_on "Cancel changes"
+    expect(org_ucas_contacts_page).to be_displayed
+  end
 end
