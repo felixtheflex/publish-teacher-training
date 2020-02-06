@@ -1,4 +1,8 @@
 {
     "baseUrl": "https://localhost:3000/",
-    "chromeWebSecurity": false
+    "chromeWebSecurity": false,
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "results/my-test-output-[hash].xml"
+    }
 }
