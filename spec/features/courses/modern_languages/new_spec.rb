@@ -19,7 +19,7 @@ feature "new modern language", type: :feature do
   let(:other_subject) { build(:subject, :mathematics) }
   let(:japanese) { build(:subject, :japanese) }
   let(:russian) { build(:subject, :russian) }
-  let(:modern_languages) { [russian] }
+  let(:modern_languages) { [russian, japanese] }
   let(:subjects) { [modern_languages_subject] }
   let(:selected_subjects) { [] }
   let(:course) do
