@@ -98,6 +98,7 @@ module Courses
     end
 
     def build_course_params
+      binding.pry
       params[:course][:subjects_ids] += params[:course][:language_ids] if params[:course][:language_ids]
       params[:course][:subjects_ids].uniq!
       params[:course].delete :language_ids

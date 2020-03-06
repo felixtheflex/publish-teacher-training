@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "new modern language", :focus, type: :feature do
+feature "new modern language", type: :feature do
   let(:back_new_modern_languages_page) do
     PageObjects::Page::Organisations::Courses::BackNewModernLanguagesPage.new
   end
@@ -66,7 +66,7 @@ feature "new modern language", :focus, type: :feature do
   context "with modern language selected" do
     let(:build_course_with_selected_value_request) { stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, russian.id]) }
 
-    fcontext "with preselected modern languages" do
+    context "with preselected modern languages" do
       let(:subjects) { [modern_languages_subject, russian] }
       let(:selected_subjects) { [modern_languages_subject, russian] }
       let(:modern_languages) { [russian, japanese] }
@@ -81,8 +81,9 @@ feature "new modern language", :focus, type: :feature do
         expect(new_modern_languages_page.language_checkbox("Russian")).to be_checked
       end
 
-      scenario "replaces the previous selection" do
+      fscenario "replaces the previous selection" do
         stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, japanese.id])
+        new_modern_languages_page.language_checkbox("Russian").click # to unselect
         new_modern_languages_page.language_checkbox("Japanese").click
         new_modern_languages_page.continue.click
 
