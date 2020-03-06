@@ -97,7 +97,20 @@ module Courses
                   .first
     end
 
+    #These need better names that indicate they're for course creation... or maybe we'd ideally split course creation into different controllers
+    def non_language_subject_ids
+      @course.meta[:edit_options][:subjects].map do |subject|
+        subject["id"]
+      end
+    end
+
+    def selected_non_language_subject_ids
+      non_language_subject_ids & params[:course][:subjects_ids]
+    end
+
     def build_course_params
+      build_new_course # to get modern languages info
+      params[:course][:subjects_ids] = selected_non_language_subject_ids
       params[:course][:subjects_ids] += params[:course][:language_ids] if params[:course][:language_ids]
       params[:course].delete :language_ids
     end
