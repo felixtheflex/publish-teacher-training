@@ -83,6 +83,7 @@ feature "new modern language", type: :feature do
 
       scenario "replaces the previous selection" do
         stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, japanese.id])
+        new_modern_languages_page.language_checkbox("Russian").click # to unselect
         new_modern_languages_page.language_checkbox("Japanese").click
         new_modern_languages_page.continue.click
 
