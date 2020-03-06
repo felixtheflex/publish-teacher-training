@@ -17,12 +17,15 @@ feature "new modern language", type: :feature do
   let(:provider) { build(:provider, sites: [build(:site), build(:site)]) }
   let(:modern_languages_subject) { build(:subject, :modern_languages) }
   let(:other_subject) { build(:subject, :mathematics) }
+  let(:japanese) { build(:subject, :japanese) }
   let(:russian) { build(:subject, :russian) }
   let(:modern_languages) { [russian] }
   let(:subjects) { [modern_languages_subject] }
+  let(:selected_subjects) { [] }
   let(:course) do
     build(:course,
           :new,
+          subjects: selected_subjects,
           provider: provider,
           edit_options: {
             subjects: subjects,
@@ -61,6 +64,36 @@ feature "new modern language", type: :feature do
   end
 
   context "with modern language selected" do
+
+    context "with preselected modern languages" do
+      let(:subjects) { [modern_languages_subject, russian] }
+      let(:selected_subjects) { [modern_languages_subject, russian] }
+      let(:modern_languages) { [russian, japanese] }
+
+      before do
+        stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, russian.id])
+        visit_modern_languages(course: { subjects_ids: [modern_languages_subject.id, russian.id]})
+      end
+
+      scenario "preselects the relevant modern languages" do
+        expect(new_modern_languages_page.language_checkbox("Russian")).to be_checked
+      end
+
+      scenario "replaces the previous selection" do
+        stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, japanese.id])
+        new_modern_languages_page.language_checkbox("Russian").click # to unselect
+        new_modern_languages_page.language_checkbox("Japanese").click
+        new_modern_languages_page.continue.click
+
+        expect(page).to have_current_path(
+          new_provider_recruitment_cycle_courses_age_range_path(
+            provider_code: provider.provider_code,
+            recruitment_cycle_year: recruitment_cycle.year,
+            course: { subjects_ids: [modern_languages_subject.id, japanese.id] },
+          ),
+        )
+      end
+    end
     scenario "presents the languages" do
       visit_modern_languages
       expect(new_modern_languages_page).to have_no_language_checkbox("Russian")
