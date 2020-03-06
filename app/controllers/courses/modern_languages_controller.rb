@@ -109,6 +109,7 @@ module Courses
     end
 
     def build_course_params
+      params[:course][:subjects_ids].uniq!
       build_new_course # to get modern languages info
       params[:course][:subjects_ids] = selected_non_language_subject_ids
       params[:course][:subjects_ids] += params[:course][:language_ids] if params[:course][:language_ids]
