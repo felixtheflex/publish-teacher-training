@@ -64,14 +64,13 @@ feature "new modern language", type: :feature do
   end
 
   context "with modern language selected" do
-
     context "with preselected modern languages" do
       let(:selected_subjects) { [modern_languages_subject, russian] }
       let(:modern_languages) { [russian, japanese] }
 
       before do
         stub_api_v2_build_course(subjects_ids: [modern_languages_subject.id, russian.id])
-        visit_modern_languages(course: { subjects_ids: [modern_languages_subject.id, russian.id]})
+        visit_modern_languages(course: { subjects_ids: [modern_languages_subject.id, russian.id] })
       end
 
       scenario "preselects the relevant modern languages" do
