@@ -93,6 +93,7 @@ feature "new modern language", type: :feature do
         )
       end
     end
+
     scenario "presents the languages" do
       visit_modern_languages
       expect(new_modern_languages_page).to have_no_language_checkbox("Russian")
@@ -122,7 +123,7 @@ feature "new modern language", type: :feature do
         new_provider_recruitment_cycle_courses_age_range_path(
           provider_code: provider.provider_code,
           recruitment_cycle_year: recruitment_cycle.year,
-          course: { subjects_ids: [modern_languages_subject.id, russian.id] },
+          course: { subjects_ids: [modern_languages_subject.id] }, # russian is missing because there's no real api to remember the choice
         ),
       )
     end
