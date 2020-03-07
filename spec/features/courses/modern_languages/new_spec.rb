@@ -66,7 +66,6 @@ feature "new modern language", type: :feature do
   context "with modern language selected" do
 
     context "with preselected modern languages" do
-      let(:subjects) { [modern_languages_subject, russian] }
       let(:selected_subjects) { [modern_languages_subject, russian] }
       let(:modern_languages) { [russian, japanese] }
 
