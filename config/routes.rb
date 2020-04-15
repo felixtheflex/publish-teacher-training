@@ -190,6 +190,8 @@ Rails.application.routes.draw do
             get :requests
           end
         end
+        
+        get 'allocations/show'
       end
     end
   end

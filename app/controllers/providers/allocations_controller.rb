@@ -24,6 +24,8 @@ module Providers
 
     def requests; end
 
+    def show; end
+
   private
 
     def build_training_provider
