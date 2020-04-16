@@ -192,6 +192,7 @@ Rails.application.routes.draw do
         end
         
         get 'allocations/show'
+        get 'allocations/new'
       end
     end
   end

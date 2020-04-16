@@ -1,0 +1,39 @@
+<%= content_for :page_title, "Offer PE" %>
+
+<%= render 'shared/errors' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: '/api/v2/allocations', method: :post do |f| %>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">
+              <span class="govuk-caption-xl">Enfield County School for Girls</span>
+              Do you want to request PE for this organisation?
+            </h1>
+          </legend>
+
+          <div class="govuk-radios govuk-!-margin-top-6" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <%= f.radio_button :funding,
+                                  'Yes',
+                                  class: 'govuk-radios__input' %>
+
+              <%= f.label :funding_15, "Yes", class: 'govuk-label govuk-radios__label' %>
+            </div>
+
+            <div class="govuk-radios__item">
+              <%= f.radio_button :funding,
+                                  'No',
+                                  class: 'govuk-radios__input' %>
+
+              <%= f.label :funding_8, "No", class: 'govuk-label govuk-radios__label' %>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <%= f.submit "Continue", class: "govuk-button" %>
+    <% end %>
+  </div>
+</div>
