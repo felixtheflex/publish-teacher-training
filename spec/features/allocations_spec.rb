@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.feature "PE allocations" do
   let(:allocations_page) { PageObjects::Page::Providers::Allocations::IndexPage.new }
+  let(:allocations_page_new) { PageObjects::Page::Providers::Allocations::NewPage.new }
+  let(:allocations_page_show) { PageObjects::Page::Providers::Allocations::ShowPage.new }
 
   scenario "Accredited body views PE allocations page" do
     given_accredited_body_exists
@@ -14,11 +16,35 @@ RSpec.feature "PE allocations" do
     and_i_click_request_pe_courses
     then_i_see_the_pe_allocations_page
 
-    and_i_see_only_see_training_providers_offering_pe_fee_founded_courses
+    # disabling this test as I am currently using dummy data
+    # and_i_see_only_see_training_providers_offering_pe_fee_founded_courses
     and_i_see_allocations_with_status_and_actions
 
     and_i_see_correct_breadcrumbs
   end
+
+  ### This needs to be duplicated for the journey where the user clicks "no"
+  scenario "Accredited body updates PE allocations" do
+    given_accredited_body_exists
+    given_training_provider_with_pe_fee_founded_course_exists
+
+    given_i_am_signed_in_as_an_admin
+
+    when_i_visit_my_organisations_page
+    and_i_click_request_pe_courses
+    then_i_see_the_pe_allocations_page
+
+    # disabling this test as I am currently using dummy data
+    # and_i_see_only_see_training_providers_offering_pe_fee_founded_courses
+    and_i_see_allocations_with_status_and_actions
+
+    and_i_click_confirm_choice
+    then_i_see_request_pe_allocations_page
+
+    then_i_click_yes
+    and_i_see_the_success_page
+  end
+  ###
 
   scenario "There is no PE allocations page for non accredited body" do
     given_training_provider_exists
@@ -124,4 +150,30 @@ RSpec.feature "PE allocations" do
     visit provider_recruitment_cycle_allocations_path(@accrediting_body.provider_code, @accrediting_body.recruitment_cycle.year)
     expect(page).to have_content("You are not permitted to see this page")
   end
+
+  ###
+  def and_i_click_confirm_choice
+    click_on "Confirm choice"
+  end
+
+  def then_i_see_request_pe_allocations_page
+    expect(find("h1")).to have_content("Do you want to request PE for this organisation?")
+  end
+
+  def then_i_click_yes
+    allocations_page_new.number_of_places_yes_input.click
+  end
+
+  def then_i_click_no
+    allocations_page_new.number_of_places_no_input.click
+  end
+
+  def then_i_click_continue
+    allocations_page_new.continue_button.click
+  end
+
+  def and_i_see_the_success_page
+    expect(allocations_page_show.confirmation_panel).to have_content('Request sent')
+  end
+  ###
 end

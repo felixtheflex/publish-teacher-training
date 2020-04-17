@@ -1,5 +1,6 @@
 module Providers
   class AllocationsController < ApplicationController
+    before_action :build_allocations # supply dummy data
     before_action :build_recruitment_cycle
     before_action :build_provider
     before_action :build_training_provider, except: %i[index]
@@ -9,24 +10,34 @@ module Providers
     PE_SUBJECT_CODE = "C6".freeze
 
     def index
-      @training_providers = @provider.training_providers(
-        recruitment_cycle_year: @recruitment_cycle.year,
-        "filter[subjects]": PE_SUBJECT_CODE,
-        "filter[funding_type]": "fee",
-        )
-      # temporary placeholders
-      @allocation_statuses = [
-        { status: "NOT YET REQUESTED", status_colour: "grey" },
-        { status: "NOT REQUESTED", status_colour: "red" },
-        { status: "REQUESTED", status_colour: "green" },
-      ]
+      # @training_providers = @provider.training_providers(
+      #   recruitment_cycle_year: @recruitment_cycle.year,
+      #   "filter[subjects]": PE_SUBJECT_CODE,
+      #   "filter[funding_type]": "fee",
+      #   )
+      # # temporary placeholders
+      # @allocation_statuses = [
+      #   { status: "NOT YET REQUESTED", status_colour: "grey" },
+      #   { status: "NOT REQUESTED", status_colour: "red" },
+      #   { status: "REQUESTED", status_colour: "green" },
+      # ]
     end
 
     def requests; end
 
+    def new; end
+
     def show; end
 
   private
+
+    # dummy data
+    def build_allocations
+      @allocations = []
+      @allocations <<  { provider_name: "Enfield County School for Girls", status: "Confirm your choice", status_colour: "grey", action: "Confirm choice", action_path: "/new" }
+      @allocations <<  { provider_name: "London Academy", status: "NOT REQUESTED", status_colour: "red", action: "Change", action_path: "#" }
+      @allocations <<  { provider_name: "University of East Anglia", status: "REQUESTED", status_colour: "green", action: "Change", action_path: "#" }
+    end
 
     def build_training_provider
       @training_provider = Provider

@@ -190,9 +190,9 @@ Rails.application.routes.draw do
             get :requests
           end
         end
-        
-        get 'allocations/show'
-        get 'allocations/new'
+
+        get 'allocations/show', as: :allocations_show
+        get 'allocations/new', as: :allocations_new
       end
     end
   end

@@ -1,40 +1,30 @@
-<table class="govuk-table ucas-info-table govuk-!-margin-bottom-8 ">
+<table class="govuk-table govuk-!-margin-bottom-8 ">
   <thead class="govuk-table__head">
-  <tr class="govuk-table__row">
-    <th class="govuk-table__header subject-col">
-      Organisation
-    </th>
-    <th class="govuk-table__header status-col">
-      Status
-    </th>
-    <th class="govuk-table__header status-col"></th>
-  </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">
+        Organisation
+      </th>
+      <th class="govuk-table__header">
+        Status
+      </th>
+      <th class="govuk-table__header"></th>
+    </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% @training_providers.each do |training_provider| %>
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" data-qa="provider_name">
-        <%= training_provider.provider_name %>
-      </th>
-      <% allocation = @allocation_statuses.sample %>
-      <td class="govuk-table__cell">
-        <span class="govuk-tag govuk-tag--<%= allocation[:status_colour] %>">
-          <%= allocation[:status] %>
-        </span>
-      </td>
-      <td class="govuk-table__cell">
-        <% if allocation[:status] == "NOT YET REQUESTED" %>
-          <%= link_to "Confirm choice",
-          requests_provider_recruitment_cycle_allocation_path(
-            @provider.provider_code,
-            @provider.recruitment_cycle_year,
-            training_provider.provider_code),
-          class: "govuk-link" %>
-        <% else %>
-          <a class="govuk-link" href="#">Change</a>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+    <% @allocations.each do |allocation| %>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" data-qa="provider_name">
+          <%= allocation[:provider_name] %>
+        </th>
+        <td class="govuk-table__cell">
+          <span class="govuk-tag govuk-tag--<%= allocation[:status_colour] %>">
+            <%= allocation[:status] %>
+          </span>
+        </td>
+        <td class="govuk-table__cell">
+          <a class="govuk-link" href="<%= request.url + allocation[:action_path] %>"><%= allocation[:action] %></a>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

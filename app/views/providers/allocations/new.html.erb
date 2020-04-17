@@ -16,24 +16,26 @@
 
           <div class="govuk-radios govuk-!-margin-top-6" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <%= f.radio_button :funding,
+              <%= f.radio_button :number_of_places,
                                   'Yes',
-                                  class: 'govuk-radios__input' %>
+                                  class: 'govuk-radios__input',
+                                  data: { 'qa': 'number_of_places_yes' } %>
 
-              <%= f.label :funding_15, "Yes", class: 'govuk-label govuk-radios__label' %>
+              <%= f.label :number_of_places_yes, 'Yes', class: 'govuk-label govuk-radios__label' %>
             </div>
 
             <div class="govuk-radios__item">
-              <%= f.radio_button :funding,
+              <%= f.radio_button :number_of_places,
                                   'No',
-                                  class: 'govuk-radios__input' %>
+                                  class: 'govuk-radios__input',
+                                  data: { 'qa': 'number_of_places_no' } %>
 
-              <%= f.label :funding_8, "No", class: 'govuk-label govuk-radios__label' %>
+              <%= f.label :number_of_places_no, 'No', class: 'govuk-label govuk-radios__label' %>
             </div>
           </div>
         </fieldset>
       </div>
-      <%= f.submit "Continue", class: "govuk-button" %>
+      <%= f.submit "Continue", class: "govuk-button", data: { qa: 'continue_button' } %>
     <% end %>
   </div>
 </div>
