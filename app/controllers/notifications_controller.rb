@@ -1,5 +1,7 @@
 class NotificationsController < ApplicationController
-  def index; end
+  def index
+    @notifications = Notification.where(user_id: current_user["user_id"]).all
+  end
 
   def create
     if params[:consent].nil?

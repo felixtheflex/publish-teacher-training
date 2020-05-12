@@ -32,7 +32,8 @@ feature "Notifications", type: :feature do
     end
 
     describe "User opting into notifications" do
-      it "should allow the user to opt into notifications" do
+      it "allows the user to opt into notifications" do
+        given_a_user_has_two_saved_notifications
         when_i_visit_accredited_body_page
         and_i_click_on_notifications_link
         then_the_notifications_page_is_displayed
@@ -43,7 +44,7 @@ feature "Notifications", type: :feature do
     end
 
     describe "User opting out of notifications" do
-      it "should allow the user to opt into notifications" do
+      it "allow the user to opt out notifications" do
         when_i_visit_accredited_body_page
         and_i_click_on_notifications_link
         then_the_notifications_page_is_displayed
@@ -55,6 +56,13 @@ feature "Notifications", type: :feature do
   end
 
 private
+
+  def given_a_user_has_two_saved_notifications
+    notification1 = build(:notification, user_id: user.id)
+    notification2 = build(:notification, user_id: user.id)
+
+    stub_api_v2_resource_collection([notification1, notification2])
+  end
 
   def when_i_visit_providers_page
     visit provider_path(provider.provider_code)
