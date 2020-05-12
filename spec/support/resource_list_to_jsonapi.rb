@@ -18,6 +18,7 @@ def resource_list_to_jsonapi(resource_list, **opts)
       AccessRequest: AccessRequestSerializer,
       Organisation: OrganisationSerializer,
       Allocation: AllocationSerializer,
+      Notification: NotificationSerializer,
     },
     include: opts[:include],
     meta: opts[:meta],
