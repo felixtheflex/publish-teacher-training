@@ -1,6 +1,8 @@
 class NotificationsController < ApplicationController
   def index
     @notifications = Notification.where(user_id: current_user["user_id"]).all
+    # wip, not working
+    set_consent_param if @notifications.present?
   end
 
   def create
@@ -25,5 +27,9 @@ private
     else
       root_path
     end
+  end
+
+  def set_consent_param
+    params[:consent] = @notifications.map(&:course_create).any? ? "Yes" : "No"
   end
 end
