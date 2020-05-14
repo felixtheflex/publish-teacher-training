@@ -1,14 +1,18 @@
 class NotificationsController < ApplicationController
+  # rename to new
   def index
-    @notifications = Notification.where(user_id: current_user["user_id"]).all
-    # wip, not working
-    set_consent_param if @notifications.present?
+    @consent = NotificationDecorator.decorate_collection(
+      # Notification.where(user_id: current_user["user_id"]).all
+      
+    )
   end
 
   def create
-    if params[:consent].nil?
+    @consent = Notification.new(consent: params[:consent]).validate!
+
+
       # TODO: Better Error messages once wired up to API
-      flash[:error] = "Please select one option"
+      # flash[:error] = "Please select one option"
       redirect_to notifications_path
       return
     end
@@ -29,7 +33,4 @@ private
     end
   end
 
-  def set_consent_param
-    params[:consent] = @notifications.map(&:course_create).any? ? "Yes" : "No"
-  end
 end

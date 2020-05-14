@@ -5,3 +5,11 @@ class Notification < Base
   property :course_create
   property :course_update
 end
+
+# include ActiveModel::Model
+#
+# attr_accessor :consent
+
+# def blank_error
+#   errors.add(:consent, "You need to add some information")
+# end
