@@ -28,7 +28,7 @@ module Providers
     def new_repeat_request; end
 
     def edit
-      flow = EditRepeatRequestFlow.new(params: params)
+      flow = flow_for_allocation.new(params: params)
 
       if request.post? && flow.redirect?
         flow.update
@@ -66,6 +66,19 @@ module Providers
     end
 
   private
+
+    def flow_for_allocation
+      case allocation.request_type
+      when AllocationsView::RequestType::REPEAT
+        EditRepeatRequestFlow
+      when AllocationsView::RequestType::DECLINED
+        EditRepeatRequestFlow
+      when AllocationsView::RequestType::INITIAL
+        EditInitialRequestFlow
+      else
+        raise
+      end
+    end
 
     def build_training_provider
       @training_provider = Provider

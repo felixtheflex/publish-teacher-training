@@ -7,12 +7,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-  <%= form_with url: initial_request_provider_recruitment_cycle_allocations_path(
-                    id: allocation.id,
-                  ),
+  <%= form_with url: edit_provider_recruitment_cycle_allocation_path(allocation.accredited_body.provider_code, recruitment_cycle.year, id: allocation.id),
                 skip_enforcing_utf8: true,
                 model: allocation,
-                method: :get,
+                method: :post,
                 builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
 
     <span class="govuk-caption-xl"><%= training_provider.provider_name %></span>
@@ -35,8 +33,6 @@
     <% end %>
 
     <%= hidden_field_tag "training_provider_code", params[:training_provider_code]  %>
-
-
 
     <%= form.govuk_submit %>
   <% end %>
