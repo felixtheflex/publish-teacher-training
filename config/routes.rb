@@ -200,7 +200,8 @@ Rails.application.routes.draw do
             get :new_repeat_request, path: "new-repeat-request"
             post :create
             get :show
-            get :edit, path: "edit", param: :id
+            post :edit
+            get :edit
             patch :update
           end
         end

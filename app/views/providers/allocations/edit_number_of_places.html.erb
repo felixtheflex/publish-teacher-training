@@ -8,10 +8,10 @@
   <div class="govuk-grid-column-two-thirds">
 
   <%= form_with url: initial_request_provider_recruitment_cycle_allocations_path(
-                    @provider.provider_code,
-                    @provider.recruitment_cycle_year,
+                    id: allocation.id,
                   ),
                 skip_enforcing_utf8: true,
+                model: allocation,
                 method: :get,
                 builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
 

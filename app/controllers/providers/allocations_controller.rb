@@ -28,7 +28,19 @@ module Providers
     def new_repeat_request; end
 
     def edit
-      @allocation = Allocation.find(params[:id]).first
+      flow = EditRequestFlow.new(params: params)
+      if request.post? && flow.redirect?
+        if delete_initial?
+
+        elsif edit_initial?
+          render "providers/allocations/edit_number_of_places", locals: flow.locals
+        elsif update_repeat?
+          update
+          redirect_to provider_recruitment_cycle_allocation_path(id: allocation.id)
+        end
+      else
+        render flow.template, locals: flow.locals
+      end
     end
 
     def create
@@ -45,27 +57,13 @@ module Providers
     end
 
     def update
-      @allocation = Allocation.find(params[:id]).first
+      allocation.request_type = params[:allocation][:request_type]
 
-      @allocation.request_type = params[:allocation][:request_type]
-
-      @allocation.save if @allocation.changed?
-
-      redirect_to provider_recruitment_cycle_allocation_path(id: @allocation.id)
+      allocation.save if allocation.changed?
     end
 
     def show
-      @allocation = Allocation.find(params[:id]).first
-    end
-
-    def edit_initial_request
-      flow = EditInitialReuqestFlow.new(params: params)
-
-      if reuqest.post? && flow.valid? && flow.redirect?
-        redirect_to flow.redirect_path
-      else
-        render flow.template, locals: flow.locals
-      end
+      allocation
     end
 
     def initial_request
@@ -100,12 +98,28 @@ module Providers
       @recruitment_cycle = RecruitmentCycle.find(cycle_year).first
     end
 
+    def allocation
+      @allocation ||= Allocation.find(params[:id]).first
+    end
+
     def require_provider_to_be_accredited_body!
       render "errors/not_found", status: :not_found unless @provider.accredited_body?
     end
 
     def require_admin_permissions!
       render "errors/forbidden", status: :forbidden unless user_is_admin?
+    end
+
+    def delete_initial?
+      params[:allocation][:request_type] == AllocationsView::RequestType::DECLINED && allocation.request_type == AllocationsView::RequestType::INITIAL
+    end
+
+    def edit_initial?
+      params[:allocation][:request_type] == AllocationsView::RequestType::INITIAL
+    end
+
+    def update_repeat?
+      allocation.request_type == AllocationsView::RequestType::DECLINED || allocation.request_type == AllocationsView::RequestType::REPEAT
     end
   end
 end
