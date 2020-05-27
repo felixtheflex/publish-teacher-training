@@ -28,16 +28,11 @@ module Providers
     def new_repeat_request; end
 
     def edit
-      flow = EditRequestFlow.new(params: params)
-      if request.post? && flow.redirect?
-        if delete_initial?
+      flow = EditRepeatRequestFlow.new(params: params)
 
-        elsif edit_initial?
-          render "providers/allocations/edit_number_of_places", locals: flow.locals
-        elsif update_repeat?
-          update
-          redirect_to provider_recruitment_cycle_allocation_path(id: allocation.id)
-        end
+      if request.post? && flow.redirect?
+        flow.update
+        redirect_to flow.redirect_path
       else
         render flow.template, locals: flow.locals
       end
@@ -54,12 +49,6 @@ module Providers
       )
 
       redirect_to provider_recruitment_cycle_allocation_path(id: allocation.id)
-    end
-
-    def update
-      allocation.request_type = params[:allocation][:request_type]
-
-      allocation.save if allocation.changed?
     end
 
     def show
@@ -99,7 +88,9 @@ module Providers
     end
 
     def allocation
-      @allocation ||= Allocation.find(params[:id]).first
+      @allocation ||= Allocation.includes(:provider, :accredited_body)
+                                .find(params[:id])
+                                .first
     end
 
     def require_provider_to_be_accredited_body!
