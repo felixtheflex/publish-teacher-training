@@ -58,6 +58,16 @@ module Providers
       @allocation = Allocation.find(params[:id]).first
     end
 
+    def edit_initial_request
+      flow = EditInitialReuqestFlow.new(params: params)
+
+      if reuqest.post? && flow.valid? && flow.redirect?
+        redirect_to flow.redirect_path
+      else
+        render flow.template, locals: flow.locals
+      end
+    end
+
     def initial_request
       flow = InitialRequestFlow.new(params: params)
 
