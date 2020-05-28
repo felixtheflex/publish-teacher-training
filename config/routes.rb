@@ -203,6 +203,11 @@ Rails.application.routes.draw do
             post :edit
             get :edit
             patch :update
+
+            scope :edit_initial_allocations do
+              get :do_you_want, to: "edit_initial_allocations#do_you_want"
+              post :do_you_want, to: "edit_initial_allocations#do_you_want"
+            end
           end
         end
       end

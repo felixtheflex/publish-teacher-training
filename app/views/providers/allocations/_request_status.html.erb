@@ -37,7 +37,7 @@
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item allocation-report__actions-list-item">
                 <%= govuk_link_to "Change",
-                                  edit_provider_recruitment_cycle_allocation_path(
+                                  do_you_want_provider_recruitment_cycle_allocation_path(
                                     @provider.provider_code,
                                     @provider.recruitment_cycle_year,
                                     allocation[:training_provider_code],
