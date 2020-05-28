@@ -207,6 +207,10 @@ Rails.application.routes.draw do
             scope :edit_initial_allocations do
               get :do_you_want, to: "edit_initial_allocations#do_you_want"
               post :do_you_want, to: "edit_initial_allocations#do_you_want"
+              get :number_of_places, to: "edit_initial_allocations#number_of_places"
+              post :number_of_places, to: "edit_initial_allocations#number_of_places"
+              get :check_answers, to: "edit_initial_allocations#check_answers"
+              post :check_answers, to: "edit_initial_allocations#check_answers"
             end
           end
         end

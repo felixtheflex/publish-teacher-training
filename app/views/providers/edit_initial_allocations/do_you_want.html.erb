@@ -12,7 +12,6 @@
                          provider.provider_code,
                          provider.recruitment_cycle_year,
                          allocation.provider.provider_code,
-                         id: allocation.id
                   ),
                   method: :post,
                   model: Allocation.new,
@@ -21,6 +20,7 @@
         <%= form.govuk_radio_button :request_type, AllocationsView::RequestType::INITIAL, label: { text: "Yes" } %>
         <%= form.govuk_radio_button :request_type, AllocationsView::RequestType::DECLINED, label: { text: "No" } %>
       <% end %>
+      <%= hidden_field_tag :id, allocation.id %>
       <%= form.govuk_submit %>
     <% end %>
   </div>
