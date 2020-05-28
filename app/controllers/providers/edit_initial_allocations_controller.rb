@@ -2,12 +2,22 @@ module Providers
   class EditInitialAllocationsController < ApplicationController
     def do_you_want
       if request.post?
-        redirect_to number_of_places_provider_recruitment_cycle_allocation_path(
-          provider_code: allocation.accredited_body.provider_code,
-          recruitment_cycle_year: recruitment_cycle.year,
-          training_provider_code: allocation.provider.provider_code,
-          id: allocation.id,
-        )
+        case params[:allocation][:request_type]
+        when AllocationsView::RequestType::INITIAL
+          redirect_to number_of_places_provider_recruitment_cycle_allocation_path(
+            provider_code: allocation.accredited_body.provider_code,
+            recruitment_cycle_year: recruitment_cycle.year,
+            training_provider_code: allocation.provider.provider_code,
+            id: allocation.id,
+          )
+        when AllocationsView::RequestType::DECLINED
+          destroy
+          redirect_to confirm_deletion_provider_recruitment_cycle_allocation_path(
+            provider_code: provider.provider_code,
+            recruitment_cycle_year: recruitment_cycle.year,
+            training_provider_code: training_provider.provider_code,
+          )
+        end
       else
       render locals: {
         training_provider: training_provider,
@@ -15,6 +25,14 @@ module Providers
         provider: provider,
       }
       end
+    end
+
+    def confirm_deletion
+      @allocation = Allocation.new(request_type: AllocationsView::RequestType::DECLINED)
+      @training_provider = training_provider
+      @provider = provider
+      @recruitment_cycle = recruitment_cycle
+      render template: "providers/allocations/show"
     end
 
     def number_of_places
@@ -92,6 +110,10 @@ module Providers
       @allocation = Allocation.includes(:provider, :accredited_body)
                                 .find(params[:id])
                                 .first
+    end
+
+    def destroy
+      allocation.destroy
     end
   end
 end
