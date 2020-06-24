@@ -33,17 +33,6 @@ class ApplicationController < ActionController::Base
   def current_user
     if is_authenticated?
       session[:auth_user]
-    elsif development_mode_auth?
-      user = authenticate_with_http_basic do |email, pass|
-        authorise_development_mode?(email, pass)
-      end
-      if user.present?
-        setup_development_mode_session(
-          email: user.email,
-          first_name: user.first_name,
-          last_name: user.last_name,
-        )
-      end
     end
   end
 
@@ -97,16 +86,11 @@ class ApplicationController < ActionController::Base
   def request_login
     return if current_user.present?
 
-    if development_mode_auth?
-      logger.info("Doing development mode authentication")
-      request_http_basic_authentication("Development Mode")
-    else
-      logger.info("Authenticated user session not found " + {
-        redirect_back_to: request.path,
-      }.to_s)
-      session[:redirect_back_to] = request.path
-      redirect_to "/signin"
-    end
+    logger.info("Authenticated user session not found " + {
+      redirect_back_to: request.path,
+    }.to_s)
+    session[:redirect_back_to] = request.path
+    redirect_to "/signin"
   end
 
   def current_user_info
