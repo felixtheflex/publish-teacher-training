@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get :healthcheck, controller: :heartbeat
   get :sha, controller: :heartbeat
 
+  post "/auth/developer/callback", to: "sessions#create"
+
   # DfE Sign In
   get "/signin", to: "sessions#new", as: "signin"
   post "/send_magic_link", to: "sessions#send_magic_link"

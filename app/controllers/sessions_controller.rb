@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :request_login
+  skip_before_action :verify_authenticity_token
 
   def new
     if FeatureService.enabled?(:signin_intercept) || !FeatureService.enabled?(:dfe_signin)
@@ -22,6 +23,7 @@ class SessionsController < ApplicationController
       "credentials" => HashWithIndifferentAccess.new(
         "id_token" => auth_hash.dig("credentials", :id_token),
       ),
+      "provider" => auth_hash.dig("provider"),
     )
 
     Raven.tags_context(sign_in_user_id: current_user.fetch("uid"))
@@ -77,11 +79,8 @@ class SessionsController < ApplicationController
 
   def signout
     if current_user.present?
-      if development_mode_auth?
-        # Disappointingly, with HTTP basic auth it's trick to really log
-        # someone out, since the browser just holds onto the user's username /
-        # password and re-submits it until their session ends. So they'll just
-        # create a new session after this "logout".
+      case session[:auth_user]["provider"]
+      when "developer"
         reset_session
         redirect_to root_path
       else

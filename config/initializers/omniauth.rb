@@ -1,3 +1,9 @@
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :developer,
+           fields: %i[email first_name last_name],
+           uid_field: :email
+end
+
 module OmniAuth
   module Strategies
     class OpenIDConnect
