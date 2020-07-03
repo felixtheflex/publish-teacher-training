@@ -1,6 +1,4 @@
 --require spec_helper
 --no-profile
---format RspecJunitFormatter
---out rspec-output/rspec-output<%= ENV['TEST_ENV_NUMBER'] %>.xml
---format RspecSonarqubeFormatter
---out out/test-report.xml
+--format RspecJunitFormatter -o rspec-output/rspec-output<%= ENV['TEST_ENV_NUMBER'] %>.xml
+--format RspecSonarqubeFormatter -o rspec-output/test-report.xml
