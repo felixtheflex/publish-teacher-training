@@ -132,4 +132,27 @@ describe AllocationsView do
       it { is_expected.to be_empty }
     end
   end
+
+  describe "#requested_allocations" do
+    subject { AllocationsView.new(training_providers: training_providers, allocations: allocations).requested_allocations_statuses }
+
+    context "Allocation period - closed: Accredited body has repeat and an initial allocation for a training provider" do
+      let(:repeat_allocation) do
+        build(:allocation, :repeat, accredited_body: accredited_body, provider: training_provider, number_of_places: 1)
+      end
+      let(:declined_allocation) { build(:allocation, :declined, accredited_body: accredited_body, provider: another_training_provider, number_of_places: 0) }
+      let(:allocations) { [repeat_allocation, declined_allocation] }
+
+      it {
+        is_expected.to eq([{
+          training_provider_name: training_provider.provider_name,
+          training_provider_code: training_provider.provider_code,
+          status_colour: AllocationsView::Colour::GREEN,
+          requested: AllocationsView::Requested::YES,
+          request_type: AllocationsView::RequestType::REPEAT,
+          status: AllocationsView::Status::REQUESTED,
+        }])
+      }
+    end
+  end
 end
