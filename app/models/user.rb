@@ -28,9 +28,8 @@ class User < Base
     end
 
     event :accept_notifications_screen do
-      transitions from: %i[rolled_over accepted_rollover_2021], to: :notifications_configured do
+      transitions from: %i[transitioned rolled_over accepted_rollover_2021], to: :notifications_configured do
         guard { associated_with_accredited_body }
-        guard { !notifications_configured }
       end
     end
   end

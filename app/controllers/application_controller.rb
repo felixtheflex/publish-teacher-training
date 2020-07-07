@@ -112,17 +112,17 @@ private
       redirect_to accept_terms_path
     elsif user_state_to_redirect_paths[user.aasm.current_state]
       redirect_to user_state_to_redirect_paths[user.aasm.current_state]
-    # elsif use_redirect_back_to
-      # redirect_to session[:redirect_back_to]
-      # clear session variable to prevent infinite loop
+    elsif use_redirect_back_to
+      redirect_to session[:redirect_back_to] if session[:redirect_back_to].present?
+      session.delete(:redirect_back_to)
     end
   end
 
   def user_state_to_redirect_paths
     {
       new: transition_info_path,
-      transitioned: rollover_path, # need switch on if rollover mode
-      rolled_over: rollover_path, # need switch on if rollover mode
+      transitioned: Settings.rollover ? rollover_path : notifications_info_path,
+      rolled_over: Settings.rollover ? rollover_path : notifications_info_path,
       accepted_rollover_2021: notifications_info_path,
     }
   end

@@ -2,22 +2,18 @@ class UsersController < ApplicationController
   skip_before_action :check_interrupt_redirects
 
   def accept_transition_info
-    # move these to state machine
-    UpdateUserService.call(user, "accept_transition_screen!")
     user.accept_transition_screen!
     session["auth_user"]["attributes"]["state"] = user.state
     redirect_to root_path
   end
 
   def accept_rollover
-    UpdateUserService.call(user, "accept_rollover_screen!")
     user.accept_rollover_screen!
     session["auth_user"]["attributes"]["state"] = user.state
     redirect_to root_path
   end
 
   def accept_notifications_info
-    UpdateUserService.call(user, "accept_notifications_screen!")
     user.accept_notifications_screen!
     session["auth_user"]["attributes"]["state"] = user.state
     redirect_to root_path

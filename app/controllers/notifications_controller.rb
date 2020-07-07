@@ -1,4 +1,6 @@
 class NotificationsController < ApplicationController
+  skip_before_action :check_interrupt_redirects
+  
   def index
     @notifications_view = NotificationsView.new(
       request: request,
