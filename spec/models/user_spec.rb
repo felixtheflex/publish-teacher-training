@@ -57,7 +57,7 @@ describe User, type: :model do
       end
 
       it "raises and error when trying to change state from 'transitioned' to 'rolled_over'" do
-        expect { rolled_over_user.accept_rollover_screen! }.to raise_error(AASM::InvalidTransition)
+        expect { rolled_over_user.accept_rollover_screen! }.to_not raise_error(AASM::InvalidTransition)
         expect(update_request).not_to have_been_made
       end
     end
@@ -102,7 +102,7 @@ describe User, type: :model do
       let(:rolled_over_user) { build(:user, :rolled_over, associated_with_accredited_body: false, notifications_configured: true) }
 
       it "raises an error when trying to change state from 'rolled_over' to 'notifications_configured'" do
-        expect { rolled_over_user.accept_notifications_screen! }.to raise_error(AASM::InvalidTransition)
+        expect { rolled_over_user.accept_notifications_screen! }.to_not raise_error(AASM::InvalidTransition)
         expect(update_request).not_to have_been_made
       end
     end
@@ -111,7 +111,7 @@ describe User, type: :model do
       let(:rolled_over_user) { build(:user, :notifications_configured, associated_with_accredited_body: true, notifications_configured: true) }
 
       it "raises an error when trying to change state from 'rolled_over' to 'subscribed_to_notifications'" do
-        expect { rolled_over_user.accept_notifications_screen! }.to raise_error(AASM::InvalidTransition)
+        expect { rolled_over_user.accept_notifications_screen! }.to_not raise_error(AASM::InvalidTransition)
         expect(update_request).not_to have_been_made
       end
     end

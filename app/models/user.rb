@@ -10,7 +10,7 @@ class User < Base
     new(id: id)
   end
 
-  aasm do
+  aasm whiny_transitions: false do
     state :new, initial: true
     state :transitioned
     state :rolled_over

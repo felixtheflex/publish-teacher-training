@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :request_login
   skip_before_action :verify_authenticity_token
+  skip_before_action :check_interrupt_redirects
 
   def new
     if FeatureService.enabled?(:signin_intercept) || !FeatureService.enabled?(:dfe_signin)
@@ -34,8 +35,7 @@ class SessionsController < ApplicationController
     Raven.user_context(id: current_user["user_id"])
     logger.debug { "User session create " + log_safe_current_user.to_s }
 
-    user = user_from_session
-    redirect_to_correct_page(user)
+    redirect_to root_path
   end
 
   def create_by_magic
@@ -63,8 +63,7 @@ class SessionsController < ApplicationController
       logger.debug { "User session create_by_magic " + log_safe_current_user.to_s }
     end
 
-    user = user_from_session
-    redirect_to_correct_page(user)
+    redirect_to root_path
   end
 
   def send_magic_link

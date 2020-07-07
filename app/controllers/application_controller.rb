@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   before_action :store_request_id
   before_action :request_login
+  before_action :check_interrupt_redirects
 
   def not_found
     respond_with_error(template: "errors/not_found", status: :not_found, error_text: "Resource not found")
@@ -104,24 +105,25 @@ class ApplicationController < ActionController::Base
 
 private
 
-  def redirect_to_correct_page(user, use_redirect_back_to: true)
+  def check_interrupt_redirects(use_redirect_back_to: true)
+    user = user_from_session
+
     if user&.accept_terms_date_utc.nil?
       redirect_to accept_terms_path
-    elsif user.next_state
-      redirect_to user_state_to_redirect_paths[user.next_state]
-    elsif use_redirect_back_to
-      redirect_to session[:redirect_back_to] || root_path
-    else
-      redirect_to root_path
+    elsif user_state_to_redirect_paths[user.aasm.current_state]
+      redirect_to user_state_to_redirect_paths[user.aasm.current_state]
+    # elsif use_redirect_back_to
+      # redirect_to session[:redirect_back_to]
+      # clear session variable to prevent infinite loop
     end
   end
 
   def user_state_to_redirect_paths
     {
-      transitioned: transition_info_path,
-      rolled_over: rollover_path,
-      accepted_rollover_2021: rollover_path,
-      notifications_configured: notifications_info_path,
+      new: transition_info_path,
+      transitioned: rollover_path, # need switch on if rollover mode
+      rolled_over: rollover_path, # need switch on if rollover mode
+      accepted_rollover_2021: notifications_info_path,
     }
   end
 
