@@ -136,7 +136,7 @@ describe AllocationsView do
   describe "#requested_allocations" do
     subject { AllocationsView.new(training_providers: training_providers, allocations: allocations).requested_allocations_statuses }
 
-    context "Allocation period - closed: Accredited body has repeat and an initial allocation for a training provider" do
+    context "returns repeat allocations if allocation period closed" do
       let(:repeat_allocation) do
         build(:allocation, :repeat, accredited_body: accredited_body, provider: training_provider, number_of_places: 1)
       end
@@ -153,6 +153,64 @@ describe AllocationsView do
           status: AllocationsView::Status::REQUESTED,
         }])
       }
+    end
+
+    context "returns initial allocations if allocation period closed" do
+      let(:initial_allocation) do
+        build(:allocation, :initial, accredited_body: accredited_body, provider: training_provider, number_of_places: 1)
+      end
+      let(:declined_allocation) { build(:allocation, :declined, accredited_body: accredited_body, provider: another_training_provider, number_of_places: 0) }
+      let(:allocations) { [initial_allocation, declined_allocation] }
+
+      it {
+        is_expected.to eq([{
+          training_provider_name: training_provider.provider_name,
+          training_provider_code: training_provider.provider_code,
+          status_colour: AllocationsView::Colour::GREEN,
+          requested: AllocationsView::Requested::YES,
+          request_type: AllocationsView::RequestType::INITIAL,
+          status: AllocationsView::Status::REQUESTED,
+        }])
+      }
+
+      it "does not display number of requested places in the status" do
+        expect(subject.first[:status]).to eq("REQUESTED")
+      end
+    end
+
+    context "returns both repeat and initial allocations if alllocation period is closed" do
+      let(:initial_allocation) do
+        training_provider.provider_name = "Training Provider A"
+        build(:allocation, :initial, accredited_body: accredited_body, provider: training_provider, number_of_places: 1)
+      end
+      let(:repeat_allocation) do
+        another_training_provider.provider_name = "Training Provider B"
+        build(:allocation, :repeat, accredited_body: accredited_body, provider: another_training_provider, number_of_places: 0)
+      end
+      let(:allocations) { [initial_allocation, repeat_allocation] }
+
+      it {
+        is_expected.to eq([{
+          training_provider_name: training_provider.provider_name,
+          training_provider_code: training_provider.provider_code,
+          status_colour: AllocationsView::Colour::GREEN,
+          requested: AllocationsView::Requested::YES,
+          request_type: AllocationsView::RequestType::INITIAL,
+          status: AllocationsView::Status::REQUESTED,
+        },
+                           {
+                             training_provider_name: another_training_provider.provider_name,
+                             training_provider_code: another_training_provider.provider_code,
+                             status_colour: AllocationsView::Colour::GREEN,
+                             requested: AllocationsView::Requested::YES,
+                             request_type: AllocationsView::RequestType::REPEAT,
+                             status: AllocationsView::Status::REQUESTED,
+                           }])
+      }
+
+      it "does not display number of requested places in the status" do
+        expect(subject.first[:status]).to eq("REQUESTED")
+      end
     end
   end
 end
