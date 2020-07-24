@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   include Pagy::Backend
 
+  http_basic_authenticate_with name: "dhh",
+                               password: "secret",
+                               if: Settings.basic_auth
+
   before_action :authenticate
   before_action :store_request_id
   before_action :request_login

@@ -1,0 +1,116 @@
+<span class="govuk-caption-l">Course administrator</span>
+<h2 class="govuk-heading-l">Anne</h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Details
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--orange">Non-accredited</strong>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Actions
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= form_tag("/auth/developer/callback") do %>
+        <%= hidden_field_tag "email", "anonimized-user-8489@example.org" %>
+        <%= hidden_field_tag "first_name", "Course administrator" %>
+        <%= hidden_field_tag "last_name", "Anne" %>
+
+        <%= submit_tag "Login as Course administrator Anne", class: "govuk-button" %>
+      <% end %>
+    </dd>
+  </div>
+</dl>
+
+<span class="govuk-caption-l">ITT partnership manager</span>
+<h2 class="govuk-heading-l">Susy</h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Details
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--blue">Accredited</strong>
+      <strong class="govuk-tag govuk-tag--orange">Non-accredited</strong>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Actions
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= form_tag("/auth/developer/callback") do %>
+        <%= hidden_field_tag "email", "anonimized-user-7946@example.org" %>
+        <%= hidden_field_tag "first_name", "ITT partnership manager" %>
+        <%= hidden_field_tag "last_name", "Susy" %>
+
+        <%= submit_tag "Login as ITT partnership manager Susy", class: "govuk-button" %>
+      <% end %>
+    </dd>
+  </div>
+</dl>
+
+<span class="govuk-caption-l">Multi-org administrator</span>
+<h2 class="govuk-heading-l">Mary</h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Details
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--blue">Multi-org</strong>
+      <strong class="govuk-tag govuk-tag--blue">Accredited</strong>
+      <strong class="govuk-tag govuk-tag--orange">Non-accredited</strong>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Actions
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= form_tag("/auth/developer/callback") do %>
+        <%= hidden_field_tag "email", "anonimized-user-7951@example.org" %>
+        <%= hidden_field_tag "first_name", "Multi-org administrator" %>
+        <%= hidden_field_tag "last_name", "Mary" %>
+
+        <%= submit_tag "Login as Multi-org administrator Mary", class: "govuk-button" %>
+      <% end %>
+    </dd>
+  </div>
+</dl>
+
+<span class="govuk-caption-l">DfE support agent</span>
+<h2 class="govuk-heading-l">Colin</h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Details
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <strong class="govuk-tag govuk-tag--blue">Support</strong>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Actions
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= form_tag("/auth/developer/callback") do %>
+        <%= hidden_field_tag "email", "phil.lee@digital.education.gov.uk" %>
+        <%= hidden_field_tag "first_name", "Support agent" %>
+        <%= hidden_field_tag "last_name", "Colin" %>
+
+        <%= submit_tag "Login as Support agent Colin", class: "govuk-button" %>
+      <% end %>
+    </dd>
+  </div>
+</dl>
+
+<%= link_to "Custom login", "/auth/developer", class: 'govuk-link' %>

@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
       case session[:auth_user]["provider"]
       when "developer"
         reset_session
-        redirect_to root_path
+        redirect_to "/auth/personas"
       else
         uri = URI("#{Settings.dfe_signin.issuer}/session/end")
         uri.query = {
