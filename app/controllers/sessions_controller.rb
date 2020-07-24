@@ -1,9 +1,13 @@
 class SessionsController < ApplicationController
   skip_before_action :request_login
-  skip_before_action :verify_authenticity_token
+  if Settings.developer_auth
+    skip_before_action :verify_authenticity_token
+  end
 
   def new
-    if FeatureService.enabled?(:signin_intercept) || !FeatureService.enabled?(:dfe_signin)
+    if Settings.developer_auth
+      redirect_to "/personas"
+    elsif FeatureService.enabled?(:signin_intercept) || !FeatureService.enabled?(:dfe_signin)
       render
     else
       redirect_to "/auth/dfe"

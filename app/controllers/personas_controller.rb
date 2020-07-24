@@ -1,11 +1,13 @@
-class PersonasController < ActionController::Base
-  layout "application"
+if Settings.developer_auth
+  class PersonasController < ActionController::Base
+    layout "application"
 
-  def index
-  end
+    def index
+    end
 
-  def current_user
-    session[:auth_user].presence
+    def current_user
+      session[:auth_user].presence
+    end
+    helper_method :current_user
   end
-  helper_method :current_user
 end
